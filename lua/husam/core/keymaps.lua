@@ -1,6 +1,9 @@
 vim.keymap.set('n', '<leader>fe', function()
 	vim.cmd(':NvimTreeToggle')
 end, {})
+vim.keymap.set('n', '<leader>gg', function()
+	vim.cmd(':Neogit')
+end, {})
 vim.keymap.set('n', '<A-Left>', function()
 	vim.cmd([[
 	:let key = nvim_replace_termcodes("<C-w>", v:true, v:false, v:true)
