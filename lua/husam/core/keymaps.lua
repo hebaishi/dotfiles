@@ -1,9 +1,6 @@
-local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>fe', function()
-        vim.cmd(':NvimTreeToggle')
+	vim.cmd(':NvimTreeToggle')
 end, {})
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<A-Left>', function()
 	vim.cmd([[
 	:let key = nvim_replace_termcodes("<C-w>", v:true, v:false, v:true)
