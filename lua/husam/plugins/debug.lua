@@ -33,44 +33,10 @@ return {
           })
         end
       end
-
-      dap.configurations.python = {
-        {
-          name = "Launch python file",
-          type = "python",
-          request = "launch",
-          program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-          end,
-          cwd = '${workspaceFolder}',
-          stopAtEntry = true,
-        }
-      }
-      dap.configurations.cpp = {
-        {
-          name = "Launch file",
-          type = "cppdbg",
-          request = "launch",
-          program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-          end,
-          cwd = '${workspaceFolder}',
-          stopAtEntry = true,
-        },
-        {
-          name = 'Attach to gdbserver :1234',
-          type = 'cppdbg',
-          request = 'launch',
-          MIMode = 'gdb',
-          miDebuggerServerAddress = 'localhost:1234',
-          miDebuggerPath = '/usr/bin/gdb',
-          cwd = '${workspaceFolder}',
-          program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-          end,
-        },
-      }
-      vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+      vim.keymap.set('n', '<F5>', function()
+        require('dap.ext.vscode').load_launchjs(nil, { cppdbg = {'c', 'cpp'} })
+        require('dap').continue()
+      end)
       vim.fn.sign_define('DapBreakpoint', {text='', texthl='', linehl='', numhl=''})
       vim.fn.sign_define('DapStopped', {text='󰁔', texthl='', linehl='', numhl=''})
     end
