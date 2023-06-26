@@ -62,7 +62,8 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      "saadparwaiz1/cmp_luasnip"
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lua"
     },
     config = function()
       local cmp = require('cmp')
@@ -115,6 +116,7 @@ return {
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_document_symbol' },
+          { name = 'nvim_lua' },
           { name = 'luasnip' },
           -- { name = 'luasnip' }, -- For luasnip users.
           -- { name = 'ultisnips' }, -- For ultisnips users.
@@ -144,6 +146,32 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
+      vim.keymap.set('n', '<Leader>xx', function()
+        vim.cmd("w")
+        vim.cmd("source %")
+      end,{})
+      require'lspconfig'.lua_ls.setup {
+        settings = {
+          Lua = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = {'vim'},
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
+      }
       require('lspconfig').clangd.setup {
         settings = {
           ['clangd'] = {},
