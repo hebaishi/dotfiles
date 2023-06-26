@@ -34,6 +34,41 @@ return {
         end
       end
       vim.keymap.set('n', '<F5>', function()
+        local auto_detect_executable = {
+          name = "Auto-detect Executable",
+          type = "cppdbg",
+          request = "launch",
+          program = function()
+            local lines_from = function(file)
+              local lines = ""
+              for line in io.lines(file) do
+                lines = lines .. line
+              end
+              return lines
+            end
+            local decoded = vim.fn.json_decode(lines_from(vim.fn.getcwd() .. "/build/compile_commands.json"))
+            local cwd = vim.fn.getcwd()
+            local file_path =  cwd .. "/" .. vim.fn.expand('%')
+            for k, v in pairs(decoded) do
+              if (v.file == file_path)
+              then
+                local output_parameter = string.match(v.command, "-o [%a/%d%p]+")
+                local suffix = ".dir"
+                local output_directory = string.match(output_parameter, "[%a%d-_]+" .. suffix)
+                local len = string.len(output_directory) - string.len(suffix)
+                local target = string.sub(output_directory, 0, len)
+                local target_path = v.directory .. '/bin/' .. target
+                print('Found target: ' .. target_path)
+                return target_path
+              end
+            end
+            print('Failed to find target for file: ' .. file_path)
+          end,
+          cwd = '${workspaceFolder}',
+          stopAtEntry = false,
+        }
+        dap.configurations.cpp = {auto_detect_executable}
+        dap.configurations.c = {auto_detect_executable}
         require('dap.ext.vscode').load_launchjs(nil, { cppdbg = {'c', 'cpp'} })
         require('dap').continue()
       end)
