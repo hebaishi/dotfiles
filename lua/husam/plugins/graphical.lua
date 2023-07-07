@@ -1,5 +1,9 @@
 return {
   {
+    "nvim-telescope/telescope-ui-select.nvim",
+    config = true
+  },
+  {
     "nvim-lualine/lualine.nvim",
     config = true
   },
