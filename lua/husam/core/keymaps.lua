@@ -1,3 +1,20 @@
+local Hydra = require('hydra')
+
+Hydra({
+   name = 'Resize Window',
+   mode = 'n',
+   body = '<leader>r',
+   heads = {
+      { '+', '<C-W><C-+>' },
+      { '-', '<C-W><C-->' },
+      { '>', '<C-W><C->>' },
+      { '<', '<C-W><C-<>' },
+   }
+})
+vim.keymap.set('n', '<F3>', function()
+  require("trouble").last({skip_groups = true, jump = true});
+  vim.lsp.buf.code_action({apply=true})
+end, {})
 vim.keymap.set('n', '<leader>fe', function()
 	vim.cmd(':NvimTreeToggle')
 end, {})

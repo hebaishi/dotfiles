@@ -1,5 +1,6 @@
 return {
   "skywind3000/asyncrun.vim",
+  "anuvyklack/hydra.nvim",
   "williamboman/mason.nvim",
   {
     "williamboman/mason-lspconfig.nvim",
