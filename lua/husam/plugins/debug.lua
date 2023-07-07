@@ -9,6 +9,10 @@ return {
         command = '/home/hebaishi/Downloads/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
       }
       dap.adapters.python = function(cb, config)
+        local bin_directory = 'Scripts'
+        if vim.loop.os_uname().sysname == 'Linux' then
+          bin_directory = 'bin'
+        end
         if config.request == 'attach' then
           ---@diagnostic disable-next-line: undefined-field
           local port = (config.connect or config).port
@@ -25,7 +29,7 @@ return {
         else
           cb({
             type = 'executable',
-            command = vim.fn.expand("~") .. '/.virtualenvs/debugpy/bin/python',
+            command = vim.fn.expand("~") .. '/.virtualenvs/debugpy/' .. bin_directory .. '/python',
             args = { '-m', 'debugpy.adapter' },
             options = {
               source_filetype = 'python',
