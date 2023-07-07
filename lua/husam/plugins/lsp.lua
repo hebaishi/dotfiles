@@ -177,6 +177,22 @@ return {
           ['clangd'] = {},
         },
       }
+      require'lspconfig'.jsonls.setup{}
+      require'lspconfig'.pylsp.setup{
+        settings = {
+          pylsp = {
+            plugins = {
+              pycodestyle = {
+                ignore = {
+                  'E111',
+                  'E121',
+                },
+                maxLineLength = 120
+              }
+            }
+          }
+        }
+      }
     end
   },
 }
