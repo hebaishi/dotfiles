@@ -178,6 +178,7 @@ return {
         },
       }
       require'lspconfig'.jsonls.setup{}
+      require'lspconfig'.rust_analyzer.setup{}
       require'lspconfig'.pylsp.setup{
         settings = {
           pylsp = {
