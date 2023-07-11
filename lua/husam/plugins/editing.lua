@@ -16,6 +16,13 @@ return {
     end
   },
   {
+    "ggandor/leap-spooky.nvim",
+    config = true,
+    dependencies = {
+      "ggandor/leap.nvim"   
+    }
+  },
+  {
     "ggandor/leap.nvim",
     config = function()
       require('leap').add_default_mappings()
