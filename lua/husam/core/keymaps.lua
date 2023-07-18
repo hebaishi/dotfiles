@@ -12,7 +12,6 @@ Hydra({
    }
 })
 vim.keymap.set('n', '<F3>', function()
-  require("trouble").last({skip_groups = true, jump = true});
   vim.lsp.buf.code_action({apply=true})
 end, {})
 vim.keymap.set('n', '<leader>fe', function()
