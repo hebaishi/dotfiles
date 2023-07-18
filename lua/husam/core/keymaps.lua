@@ -60,9 +60,8 @@ vim.keymap.set('n', '<Leader>db', function()
 end,{})
 vim.keymap.set('n', '<F8>', function()
   local status_ok, _ = pcall( vim.cmd, ':cn')
-  if not status_ok then
+  if status_ok == false then
     vim.cmd(':crewind')
-    vim.cmd(':cn')
   end
 end,{})
 vim.keymap.set('n', '<F9>', function()
