@@ -11,6 +11,9 @@ Hydra({
       { '<', '<C-W><C-<>' },
    }
 })
+vim.keymap.set('n', '<Leader>dg', function()
+  vim.cmd(':Telescope diagnostics')
+end, {})
 vim.keymap.set('n', '<F3>', function()
   vim.lsp.buf.code_action({apply=true})
 end, {})
