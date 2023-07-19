@@ -29,12 +29,12 @@ return {
     config = true
   },
   {
-    "tanvirtin/monokai.nvim",
+    "bluz71/vim-moonfly-colors",
+    name = "moonfly",
+    lazy = false,
+    priority = 1000,
     config = function()
-      require('monokai').setup {
-        italics = false
-      }
-      vim.cmd(':colorscheme monokai')
+      vim.cmd(':colorscheme moonfly')
     end
-  },
+  }
 }

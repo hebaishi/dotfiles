@@ -15,7 +15,7 @@
   "lualine.nvim": { "branch": "master", "commit": "05d78e9fd0cdfb4545974a5aa14b1be95a86e9c9" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "828a538ac8419f586c010996aefa5df6eb7c250b" },
   "mason.nvim": { "branch": "main", "commit": "5ad3e113b0c3fde3caba8630599373046f6197e8" },
-  "monokai.nvim": { "branch": "master", "commit": "b8bd44d5796503173627d7a1fc51f77ec3a08a63" },
+  "moonfly": { "branch": "master", "commit": "2583b326640ff1d6335a4e78b095203653871c68" },
   "neogit": { "branch": "master", "commit": "90dd88474a62cb36d1f95c3c8c532af1c080357a" },
   "nvim-cmp": { "branch": "main", "commit": "c4e491a87eeacf0408902c32f031d802c7eafce8" },
   "nvim-dap": { "branch": "master", "commit": "d17d1bba23ec72a157bd183c57840c39e323f515" },
