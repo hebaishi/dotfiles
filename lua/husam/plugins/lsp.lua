@@ -1,5 +1,9 @@
 return {
   {
+    "ray-x/lsp_signature.nvim",
+    config = true
+  },
+  {
     "hrsh7th/cmp-nvim-lsp",
     config = function()
       -- Set up lspconfig.
