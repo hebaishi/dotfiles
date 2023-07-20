@@ -2,6 +2,10 @@ return {
   "mg979/vim-visual-multi",
   "L3MON4D3/LuaSnip",
   {
+    "windwp/nvim-autopairs",
+    config = true
+  },
+  {
     "numToStr/Comment.nvim",
     config = true
   },
