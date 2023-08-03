@@ -3,10 +3,10 @@ require('husam.plugin-setup')
 require('husam.core.keymaps')
 require('husam.core.lsp')
 local signs = {
-    Error = " ",
-    Warn = " ",
-    Hint = " ",
-    Information = " "
+  Error = " ",
+  Warn = " ",
+  Hint = " ",
+  Information = " "
 }
 
 for type, icon in pairs(signs) do
