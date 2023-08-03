@@ -21,7 +21,7 @@ return {
     end
   },
   {
-    "nvim-telescope/telescope-ui-select.nvim",
+    "stevearc/dressing.nvim",
     config = true
   },
   {
