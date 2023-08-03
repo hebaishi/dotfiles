@@ -2,6 +2,10 @@ return {
   "mg979/vim-visual-multi",
   "L3MON4D3/LuaSnip",
   {
+    "ThePrimeagen/harpoon",
+    config = true
+  },
+  {
     "windwp/nvim-autopairs",
     config = true
   },
