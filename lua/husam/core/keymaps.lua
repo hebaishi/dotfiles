@@ -110,3 +110,14 @@ end)
 vim.keymap.set('n', '<leader>hh', function ()
   require("harpoon.ui").toggle_quick_menu()
 end)
+
+for i = 1, 5 do
+  vim.keymap.set('n', '<A-' .. tostring(i) .. '>', function()
+    require("harpoon.tmux").sendCommand(tostring(i), i)
+    require("harpoon.tmux").sendCommand(tostring(i), '\n')
+  end, {})
+end
+
+vim.keymap.set('n', '<leader>hc', function()
+  require('harpoon.cmd-ui').toggle_quick_menu()
+end, {})
