@@ -1,5 +1,6 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  "christoomey/vim-tmux-navigator",
   {
     "nvim-tree/nvim-tree.lua",
     version = "*",
