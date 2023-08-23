@@ -1,5 +1,6 @@
 return {
   "mg979/vim-visual-multi",
+  "jparise/vim-graphql",
   "L3MON4D3/LuaSnip",
   {
     "windwp/nvim-ts-autotag",
