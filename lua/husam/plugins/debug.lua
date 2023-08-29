@@ -43,30 +43,54 @@ return {
           type = "cppdbg",
           request = "launch",
           program = function()
-            local lines_from = function(file)
-              local lines = ""
-              for line in io.lines(file) do
-                lines = lines .. line
+            local file_path = vim.fn.expand('%:p')
+            local get_current_executable = function()
+              local Job = require 'plenary.job'
+
+              local function trim(s)
+                return (s:gsub("^%s*(.-)%s*$", "%1"))
               end
-              return lines
-            end
-            local decoded = vim.fn.json_decode(lines_from(vim.fn.getcwd() .. "/build/compile_commands.json"))
-            local cwd = vim.fn.getcwd()
-            local file_path =  cwd .. "/" .. vim.fn.expand('%')
-            for k, v in pairs(decoded) do
-              if (v.file == file_path)
-              then
-                local output_parameter = string.match(v.command, "-o [%a/%d%p]+")
-                local suffix = ".dir"
-                local output_directory = string.match(output_parameter, "[%a%d-_]+" .. suffix)
-                local len = string.len(output_directory) - string.len(suffix)
-                local target = string.sub(output_directory, 0, len)
-                local target_path = v.directory .. '/bin/' .. target
-                print('Found target: ' .. target_path)
-                return target_path
+              local outputs = { file_path }
+              local process_one = function()
+                Job:new({
+                  command = 'ninja',
+                  args = { '-t', 'query', outputs[#outputs] },
+                  cwd = vim.fn.getcwd() .. '/build',
+                  env = {},
+                  on_exit = function(j, return_val)
+                    if return_val == 0 then
+                      local current_mode = ''
+                      for _, value in ipairs(j:result()) do
+                        local trimmed_string = trim(value)
+                        if trimmed_string == 'inputs:' then
+                          current_mode = 'input'
+                        elseif trimmed_string == 'outputs:' then
+                          current_mode = 'output'
+                        elseif current_mode == 'output' then
+                          table.insert(outputs, trim(value))
+                        else
+                          current_mode = ''
+                        end
+                      end
+                    end
+                  end
+                }):sync() -- or start()
               end
+              local function endsWith(str, ending)
+                return ending == "" or string.sub(str, -string.len(ending)) == ending
+              end
+              local max_iterations = 5
+              for _ = 1, max_iterations do
+                local current_output = outputs[#outputs]
+                if not endsWith(current_output, '.o') and not endsWith(current_output, '.cpp') then
+                  return vim.fn.getcwd() .. '/build/' .. current_output
+                else
+                  process_one()
+                end
+              end
+              print('Failed to find target for file: ' .. file_path)
             end
-            print('Failed to find target for file: ' .. file_path)
+            return get_current_executable()
           end,
           cwd = '${workspaceFolder}',
           stopAtEntry = false,
