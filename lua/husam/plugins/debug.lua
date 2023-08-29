@@ -95,13 +95,13 @@ return {
           cwd = '${workspaceFolder}',
           stopAtEntry = false,
         }
-        dap.configurations.cpp = {auto_detect_executable}
-        dap.configurations.c = {auto_detect_executable}
-        require('dap.ext.vscode').load_launchjs(nil, { cppdbg = {'c', 'cpp'} })
+        dap.configurations.cpp = { auto_detect_executable }
+        dap.configurations.c = { auto_detect_executable }
+        require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
         require('dap').continue()
       end)
-      vim.fn.sign_define('DapBreakpoint', {text='', texthl='', linehl='', numhl=''})
-      vim.fn.sign_define('DapStopped', {text='󰁔', texthl='', linehl='', numhl=''})
+      vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
+      vim.fn.sign_define('DapStopped', { text = '󰁔', texthl = '', linehl = '', numhl = '' })
     end
   },
   "sakhnik/nvim-gdb",
