@@ -3,6 +3,10 @@ return {
   "anuvyklack/hydra.nvim",
   "williamboman/mason.nvim",
   {
+    "akinsho/toggleterm.nvim",
+    config = true
+  },
+  {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       local lspconfig = require('lspconfig')
