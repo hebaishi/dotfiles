@@ -165,6 +165,7 @@ return {
           ['clangd'] = {},
         },
       }
+      require'lspconfig'.vtsls.setup{}
       require'lspconfig'.jsonls.setup{}
       require'lspconfig'.rust_analyzer.setup{}
       require'lspconfig'.pylsp.setup{
