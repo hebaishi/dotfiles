@@ -2,6 +2,7 @@ return {
   "mg979/vim-visual-multi",
   "jparise/vim-graphql",
   "L3MON4D3/LuaSnip",
+  "hrsh7th/cmp-path",
   {
     "windwp/nvim-ts-autotag",
     config = true

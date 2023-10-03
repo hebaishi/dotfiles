@@ -11,7 +11,8 @@ return {
     dependencies = {
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lua",
-      "windwp/nvim-autopairs"
+      "windwp/nvim-autopairs",
+      "hrsh7th/cmp-path"
     },
     config = function()
       local cmp = require('cmp')
@@ -66,6 +67,7 @@ return {
           { name = 'nvim_lsp_document_symbol' },
           { name = 'nvim_lua' },
           { name = 'luasnip' },
+          { name = 'path' },
           -- { name = 'luasnip' }, -- For luasnip users.
           -- { name = 'ultisnips' }, -- For ultisnips users.
           -- { name = 'snippy' }, -- For snippy users.
