@@ -12,7 +12,9 @@ return {
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lua",
       "windwp/nvim-autopairs",
-      "hrsh7th/cmp-path"
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "hrsh7th/cmp-cmdline"
     },
     config = function()
       local cmp = require('cmp')
@@ -68,6 +70,8 @@ return {
           { name = 'nvim_lua' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'nvim_lsp_signature_help' },
+          { name = 'cmdline' }
           -- { name = 'luasnip' }, -- For luasnip users.
           -- { name = 'ultisnips' }, -- For ultisnips users.
           -- { name = 'snippy' }, -- For snippy users.
@@ -90,6 +94,20 @@ return {
         sources = {
           { name = 'buffer' }
         }
+      })
+      -- `:` cmdline setup.
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          {
+            name = 'cmdline',
+            option = {
+              ignore_cmds = { 'Man', '!' }
+            }
+          }
+        })
       })
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       local handlers = require('nvim-autopairs.completion.handlers')
