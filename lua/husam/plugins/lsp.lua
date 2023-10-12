@@ -43,12 +43,12 @@ return {
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
-            -- they way you will only jump inside the snippet region
+              -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+              -- they way you will only jump inside the snippet region
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
-            -- elseif has_words_before() then
-            --  cmp.complete()
+              -- elseif has_words_before() then
+              --  cmp.complete()
             else
               fallback()
             end
@@ -155,8 +155,8 @@ return {
       vim.keymap.set('n', '<Leader>xx', function()
         vim.cmd("w")
         vim.cmd("source %")
-      end,{})
-      require'lspconfig'.lua_ls.setup {
+      end, {})
+      require 'lspconfig'.lua_ls.setup {
         settings = {
           Lua = {
             runtime = {
@@ -165,7 +165,7 @@ return {
             },
             diagnostics = {
               -- Get the language server to recognize the `vim` global
-              globals = {'vim'},
+              globals = { 'vim' },
             },
             workspace = {
               -- Make the server aware of Neovim runtime files
@@ -183,10 +183,10 @@ return {
           ['clangd'] = {},
         },
       }
-      require'lspconfig'.vtsls.setup{}
-      require'lspconfig'.jsonls.setup{}
-      require'lspconfig'.rust_analyzer.setup{}
-      require'lspconfig'.pylsp.setup{
+      require 'lspconfig'.vtsls.setup {}
+      require 'lspconfig'.jsonls.setup {}
+      require 'lspconfig'.rust_analyzer.setup {}
+      require 'lspconfig'.pylsp.setup {
         settings = {
           pylsp = {
             plugins = {
