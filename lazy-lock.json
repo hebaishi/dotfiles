@@ -10,6 +10,7 @@
   "cmp_luasnip": { "branch": "master", "commit": "18095520391186d634a0045dacaa346291096566" },
   "diffview.nvim": { "branch": "main", "commit": "b0cc22f5708f6b2b4f873b44fbc5eb93020f4e0c" },
   "dressing.nvim": { "branch": "master", "commit": "39611852fd7bbac117e939a26759bb37361f0c90" },
+  "gitlinker.nvim": { "branch": "master", "commit": "cc59f732f3d043b626c8702cb725c82e54d35c25" },
   "gitsigns.nvim": { "branch": "main", "commit": "48c3ae8ec74cb83f9570ceb0c5ab8217db7a2220" },
   "harpoon": { "branch": "master", "commit": "21f4c47c6803d64ddb934a5b314dcb1b8e7365dc" },
   "hydra.nvim": { "branch": "master", "commit": "3ced42c0b6a6c85583ff0f221635a7f4c1ab0dd0" },
