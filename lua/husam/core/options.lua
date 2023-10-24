@@ -10,3 +10,4 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.cmd(':set relativenumber')
 vim.cmd('set makeprg=cmake\\ --build\\ build\\ --target\\ all')
+vim.cmd('set mouse=')
