@@ -1,4 +1,12 @@
 return {
+  {
+    "folke/todo-comments.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      'nvim-telescope/telescope.nvim'
+    },
+    config = true
+  },
   "skywind3000/asyncrun.vim",
   "anuvyklack/hydra.nvim",
   "williamboman/mason.nvim",
