@@ -37,7 +37,6 @@
   "nvim-web-devicons": { "branch": "master", "commit": "9ab9b0b894b2388a9dbcdee5f00ce72e25d85bf9" },
   "plenary.nvim": { "branch": "master", "commit": "bda256fab0eb66a15e8190937e417e6a14ee5d72" },
   "popfix": { "branch": "master", "commit": "bf3cc436df63cd535350d5ef1b951c91554d4b01" },
-  "tabnine-nvim": { "branch": "master", "commit": "81f5692d1253c204bd63387c7893a9e8a9478842" },
   "telescope.nvim": { "branch": "master", "commit": "c1a2af0af69e80e14e6b226d3957a064cd080805" },
   "todo-comments.nvim": { "branch": "main", "commit": "4a6737a8d70fe1ac55c64dfa47fcb189ca431872" },
   "toggleterm.nvim": { "branch": "main", "commit": "0427b908ebefcb3701c7f2cfbdafa37d11afe71a" },
