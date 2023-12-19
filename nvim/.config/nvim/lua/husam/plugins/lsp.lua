@@ -14,7 +14,6 @@ return {
       "windwp/nvim-autopairs",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp-signature-help",
-      "hrsh7th/cmp-cmdline"
     },
     config = function()
       local cmp = require('cmp')
@@ -88,27 +87,6 @@ return {
         })
       })
 
-      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline({ '/', '?' }, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' }
-        }
-      })
-      -- `:` cmdline setup.
-      cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          {
-            name = 'cmdline',
-            option = {
-              ignore_cmds = { 'Man', '!' }
-            }
-          }
-        })
-      })
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       local handlers = require('nvim-autopairs.completion.handlers')
 
