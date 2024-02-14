@@ -179,6 +179,15 @@ return {
           }
         }
       }
+      require('lspconfig').yamlls.setup {
+        settings = {
+          yaml = {
+            schemas = {
+              ["https://gitlab.com/gitlab-org/gitlab/-/raw/v14.10.0-ee/app/assets/javascripts/editor/schema/ci.json?ref_type=tags"] = ".gitlab-ci.yml"
+            },
+          },
+        }
+      }
     end
   },
 }
