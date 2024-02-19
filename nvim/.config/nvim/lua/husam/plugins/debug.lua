@@ -104,7 +104,6 @@ return {
       vim.fn.sign_define('DapStopped', { text = '󰁔', texthl = '', linehl = '', numhl = '' })
     end
   },
-  "sakhnik/nvim-gdb",
   {
     "rcarriga/nvim-dap-ui",
     lazy = false,
