@@ -53,7 +53,7 @@ return {
     keys = {
       -- suggestions for keymaps:
       -- { "<leader>tt", ":TunnellCell<CR>",   mode = { "n" }, desc = "Tunnell cell" },
-      { "<leader>tr", ":TunnellRange<CR>",  mode = { "v" }, desc = "Tunnell range" },
+      { "<leader>tr", ":TunnellRange<CR>", mode = { "v" }, desc = "Tunnell range" },
       -- { "<leader>tc", ":TunnellConfig<CR>", mode = { "n" }, desc = "Tunnell config" },
     },
 
