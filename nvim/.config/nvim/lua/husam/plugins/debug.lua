@@ -53,7 +53,7 @@ return {
         else
           cb({
             type = 'executable',
-            command = vim.fn.expand("~") .. '/.virtualenvs/debugpy/' .. bin_directory .. '/python',
+            command = vim.fn.expand("~") .. '/.virtualenvs/' .. bin_directory .. '/python',
             args = { '-m', 'debugpy.adapter' },
             options = {
               source_filetype = 'python',
