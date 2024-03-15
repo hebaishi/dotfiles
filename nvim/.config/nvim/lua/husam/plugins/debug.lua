@@ -121,6 +121,15 @@ return {
         }
         dap.configurations.cpp = { auto_detect_executable }
         dap.configurations.c = { auto_detect_executable }
+        dap.configurations.python = {
+          {
+            type = "python",
+            name = "Current File",
+            request = "launch",
+            program = "${file}",
+            cwd = "${workspaceFolder}"
+          }
+        }
         require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
         require('dap').continue()
       end)
