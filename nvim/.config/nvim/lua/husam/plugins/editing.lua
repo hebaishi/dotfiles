@@ -1,5 +1,6 @@
 return {
   {
+    "jghauser/mkdir.nvim",
     {
       "nomnivore/ollama.nvim",
       dependencies = {
