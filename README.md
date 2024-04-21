@@ -1,3 +1,3 @@
 # dotfiles
 
-Configuration files for my development environment.
+Configuration files for my personal development environment.
