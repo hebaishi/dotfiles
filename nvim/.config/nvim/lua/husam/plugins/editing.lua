@@ -34,9 +34,9 @@ return {
         },
         prompts = {
           CodeGen2 = {
-            prompt = "$input. Write all code in a code block. Do not explain the code.",
+            prompt = "$input. Only show the code. Enclose all code in triple backticks.",
             input_label = "> ",
-            model = "codellama",
+            model = "llama3",
             action = "insert",
             extract = "```%w*\n(.-)```"
           }
