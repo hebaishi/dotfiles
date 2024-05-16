@@ -1,11 +1,11 @@
 #!/bin/bash
 function list_dirs() {
-  top_level_dirs="~/work/git ~"
+  top_level_dirs="~/personal/git ~/work/git"
   result=""
   for dir in $top_level_dirs; do
     dir="${dir/#\~/$HOME}"
     local_result=""
-    repos="$repos $(find $dir -maxdepth 3 -name .git -type d)"
+    repos="$(find $dir -maxdepth 3 -name .git -type d)"
     local_result="$local_result $repos"
     for repo in $repos; do
       if [[ -d $repo/worktrees ]]; then
@@ -23,7 +23,7 @@ function list_dirs() {
   for item in $result; do echo $item; done
 }
 
-selected=$(list_dirs | sort | uniq | fzf)
+selected=$(list_dirs | fzf)
 if [[ -z $selected ]]; then
     exit 0
 fi
