@@ -1,7 +1,6 @@
 #!/bin/bash
 function list_dirs() {
   top_level_dirs="~/personal/git ~/work/git"
-  result=""
   for dir in $top_level_dirs; do
     dir="${dir/#\~/$HOME}"
     local_result=""
@@ -17,10 +16,9 @@ function list_dirs() {
     done
     for full_path_repo in $local_result; do
       root_dir=$(echo $full_path_repo | sed -e 's/\/\.git//')
-      result="$result $dir:$(realpath -s --relative-to="$dir" "$root_dir")"
+      echo "$dir:$(realpath -s --relative-to="$dir" "$root_dir")"
     done
   done
-  for item in $result; do echo $item; done
 }
 
 selected=$(list_dirs | fzf)
