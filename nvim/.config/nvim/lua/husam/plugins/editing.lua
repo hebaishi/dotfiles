@@ -109,16 +109,6 @@ return {
     end
   },
   {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    config = function()
-      require("hardtime").setup({
-        disable_mouse = false
-      })
-      vim.cmd(':set mouse=a')
-    end
-  },
-  {
     "ziontee113/icon-picker.nvim",
     config = function()
       require("icon-picker").setup({ disable_legacy_commands = true })
