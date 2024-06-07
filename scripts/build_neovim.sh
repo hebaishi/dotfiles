@@ -5,7 +5,7 @@ version=v0.9.4
 
 if [ -d "$build_dir" ]; then
   cd $build_dir
-  git pull
+  git fetch
 else
   mkdir -p $build_dir
   git clone https://github.com/neovim/neovim $build_dir
