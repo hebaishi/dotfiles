@@ -21,7 +21,7 @@ function list_dirs() {
   done
 }
 
-selected=$(list_dirs | fzf)
+selected=$(list_dirs | fzf --color=16)
 if [[ -z $selected ]]; then
     exit 0
 fi
