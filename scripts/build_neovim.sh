@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 build_dir=~/dev/neovim
-version=v0.9.4
+version=v0.10.0
 
 if [ -d "$build_dir" ]; then
   cd $build_dir
