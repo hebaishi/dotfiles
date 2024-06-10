@@ -18,20 +18,6 @@ return {
     config = true
   },
   {
-    "RishabhRD/nvim-cheat.sh",
-    config = function()
-      vim.keymap.set('n', '<leader>cl', function()
-        vim.cmd(':CheatList')
-      end)
-      vim.keymap.set('n', '<leader>ch', function()
-        vim.cmd(':Cheat')
-      end)
-    end,
-    dependencies = {
-      "RishabhRD/popfix"
-    }
-  },
-  {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       local lspconfig = require('lspconfig')
