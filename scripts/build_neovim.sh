@@ -1,18 +1,18 @@
 #!/bin/sh
 set -e
-build_dir=~/dev/neovim
+clone_dir=~/dev/neovim
 version=v0.10.0
 build_type=Release
 
-if [ -d "$build_dir" ]; then
-  cd $build_dir
+if [ -d "$clone_dir" ]; then
+  cd $clone_dir
   git fetch
 else
-  mkdir -p $build_dir
-  git clone https://github.com/neovim/neovim $build_dir
+  mkdir -p $clone_dir
+  git clone https://github.com/neovim/neovim $clone_dir
 fi
 
-cd $build_dir
+cd $clone_dir
 git checkout $version
 sudo apt-get install ninja-build gettext cmake unzip curl
 cmake -S cmake.deps -B .deps -G Ninja -D CMAKE_BUILD_TYPE=$build_type
