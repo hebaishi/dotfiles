@@ -36,8 +36,12 @@ vim.keymap.set('n', '<leader>da', function()
               cwd = "${workspaceFolder}"
             }
           )
-          vim.api.nvim_buf_set_lines(0, 0, -1, true, { vim.json.encode(config) })
-          vim.lsp.buf.format()
+          local json_str = vim.json.encode(config)
+          print(json_str)
+          json_str = json_str:gsub("\\/", "/")
+          print(json_str)
+          vim.api.nvim_buf_set_lines(0, 0, -1, true, { json_str })
+          vim.cmd('%!jq')
         end
       end
     end)
