@@ -30,8 +30,8 @@ vim.keymap.set('n', '<leader>da', function()
             {
               type = "cppdbg",
               request = "launch",
-              name = "${workspaceFolder}/" .. program,
-              program = program,
+              program = "${workspaceFolder}/" .. program,
+              name = program,
               args = args,
               cwd = "${workspaceFolder}"
             }
