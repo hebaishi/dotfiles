@@ -129,7 +129,6 @@ return {
           cwd = "${workspaceFolder}"
         }
       }
-      require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
       require('dap').continue()
     end)
     vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
