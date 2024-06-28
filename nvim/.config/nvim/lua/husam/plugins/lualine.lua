@@ -8,5 +8,6 @@ return {
         section_separators = { left = '', right = '' },
       }
     })
+    vim.cmd('set laststatus=3')
   end
 }

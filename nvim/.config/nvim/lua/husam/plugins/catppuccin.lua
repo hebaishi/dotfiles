@@ -8,6 +8,14 @@ return {
       no_italic = true,
       term_colors = true,
       transparent_background = false,
+      highlight_overrides = {
+        all = function(colors)
+          return {
+            WinSeparator = { fg = '#FFFFFF' },
+            NvimTreeWinSeparator = { fg = '#FFFFFF' }
+          }
+        end,
+      },
       styles = {
         comments = {},
         conditionals = {},
@@ -41,6 +49,10 @@ return {
         nvimtree = true,
         leap = true,
         markdown = true,
+        colorful_winsep = {
+          enabled = true,
+          color = "blue",
+        },
         indent_blankline = {
           enabled = true,
           -- scope_color = "", -- catppuccin color (eg. `lavender`) Default: text
