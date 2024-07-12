@@ -85,10 +85,6 @@ vim.keymap.set('n', '<Leader>tt', function()
   :term
   ]])
 end,{})
-vim.keymap.set('n', 't', function ()
-  local current_window = vim.fn.win_getid()
-  require('leap').leap { target_windows = { current_window } }
-end)
 vim.keymap.set('n', '<leader>ha', function ()
   require("harpoon.mark").add_file()
 end)
