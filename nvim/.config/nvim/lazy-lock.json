@@ -47,5 +47,6 @@
   "tunnell.nvim": { "branch": "main", "commit": "0df7467d7068b64afba910e118b6bbd358d4fdec" },
   "vim-graphql": { "branch": "master", "commit": "996749a7d69a3709768fa8c4d259f79b5fd9bdb1" },
   "vim-tmux-navigator": { "branch": "master", "commit": "addb64a772cb4a3ae1f1363583012b2cada2cd66" },
-  "vim-visual-multi": { "branch": "master", "commit": "724bd53adfbaf32e129b001658b45d4c5c29ca1a" }
+  "vim-visual-multi": { "branch": "master", "commit": "724bd53adfbaf32e129b001658b45d4c5c29ca1a" },
+  "which-key.nvim": { "branch": "main", "commit": "af4ded85542d40e190014c732fa051bdbf88be3d" }
 }

@@ -57,18 +57,6 @@ vim.keymap.set('n', '<Leader>tt', function()
   :term
   ]])
 end,{})
-vim.keymap.set('n', '<leader>ha', function ()
-  require("harpoon.mark").add_file()
-end)
-vim.keymap.set('n', '<A-j>', function ()
-  require("harpoon.ui").nav_next()
-end)
-vim.keymap.set('n', '<A-k>', function ()
-  require("harpoon.ui").nav_prev()
-end)
-vim.keymap.set('n', '<leader>hh', function ()
-  require("harpoon.ui").toggle_quick_menu()
-end)
 
 for i = 1, 5 do
   vim.keymap.set('n', '<A-' .. tostring(i) .. '>', function()
@@ -92,7 +80,3 @@ for i = 1, 5 do
     end
   end, {})
 end
-
-vim.keymap.set('n', '<leader>hc', function()
-  require('harpoon.cmd-ui').toggle_quick_menu()
-end, {})
