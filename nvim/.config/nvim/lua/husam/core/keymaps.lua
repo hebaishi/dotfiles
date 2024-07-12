@@ -1,16 +1,3 @@
-local Hydra = require('hydra')
-
-Hydra({
-   name = 'Resize Window',
-   mode = 'n',
-   body = '<leader>r',
-   heads = {
-      { '+', '<C-W><C-+>' },
-      { '-', '<C-W><C-->' },
-      { '>', '<C-W><C->>' },
-      { '<', '<C-W><C-<>' },
-   }
-})
 vim.keymap.set('n', '<Leader>dg', function()
   vim.cmd(':Telescope diagnostics')
 end, {})
