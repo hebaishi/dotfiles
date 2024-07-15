@@ -43,9 +43,3 @@ end,{})
 vim.keymap.set('n', '<S-F7>', function()
   vim.cmd(':cclose')
 end,{})
-vim.keymap.set('n', '<Leader>tt', function()
-  vim.cmd([[
-  :bo split
-  :term
-  ]])
-end,{})
