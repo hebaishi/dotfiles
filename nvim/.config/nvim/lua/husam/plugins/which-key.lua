@@ -1,42 +1,79 @@
 return {
   "folke/which-key.nvim",
+  dependencies = {
+    "echasnovski/mini.icons"
+  },
   event = "VeryLazy",
   init = function()
     vim.o.timeout = true
     vim.o.timeoutlen = 300
   end,
-  opts = {
+  keys = {
+    {
+      "<leader>?",
+      function()
+        require("which-key").show({ global = false })
+      end,
+      desc = "Buffer Local Keymaps (which-key)",
+    },
   },
   config = function()
     local wk = require("which-key")
     local builtin = require 'telescope.builtin'
     local harpoon = require 'harpoon'
-
-    wk.register({
-      s = {
-        name = "search",
-        h = { builtin.help_tags, '[S]earch [H]elp' },
-        k = { builtin.keymaps, '[S]earch [K]eymaps' },
-        f = { builtin.find_files, '[S]earch [F]iles' },
-        s = { builtin.builtin, '[S]earch [S]elect Telescope' },
-        w = { builtin.grep_string, '[S]earch current [W]ord' },
-        g = { builtin.live_grep, '[S]earch by [G]rep' },
-        d = { builtin.diagnostics, '[S]earch [D]iagnostics' },
-        r = { builtin.resume, '[S]earch [R]esume' },
-        ["."] = { builtin.oldfiles, '[S]earch Recent Files ("." for repeat)' }
-      },
-      h = {
-        name= "harpoon",
-        a = { harpoon.mark, '[H]arpoon [M]ark'},
-        n = { require("harpoon.ui").nav_next, '[H]arpoon Navigate [N]ext'},
-        p = { require("harpoon.ui").nav_prev, '[H]arpoon Navigate [P]revious'},
-        m = { require("harpoon.ui").toggle_quick_menu, '[H]arpoon Toogle Quick [M]enu'},
-        c = { require("harpoon.cmd-ui").toggle_quick_menu, '[H]arpoon [C]md-UI'}
-      },
-      c = {
-        name = "clangd",
-        s = { function() vim.cmd(":ClangdSwitchSourceHeader") end, "[C]langd [S]witch Source/Header"}
+    wk.setup({
+      preset = "modern",
+      icons = {
+        rules = {
+          { pattern = "git",      cat = "filetype", name = "git" },
+          { pattern = "rabbit",   icon = "🐇",    color = "white" },
+          { pattern = "start",    icon = "",     color = "cyan" },
+          { pattern = "add",      icon = "",     color = "green" },
+          { pattern = "debug",    icon = "",     color = "red" },
+          { pattern = "switch",   icon = "",     color = "white" },
+          { pattern = "ollama",   icon = "🦙",    color = "cyan" },
+          { pattern = "next",     icon = "",     color = "green" },
+          { pattern = "previous", icon = "",     color = "green" },
+          { pattern = "pick",     icon = "👌",    color = "green" },
+          { pattern = "tree",     icon = "",     color = "green" }
+        }
       }
-    }, { prefix = "<leader>" })
+    })
+    wk.add({
+      { "<leader>d",  group = "debug" },
+      { "<leader>s",  group = "search" },
+      { "<leader>sh", builtin.help_tags,   desc = 'Search Help' },
+      { "<leader>sk", builtin.keymaps,     desc = 'Search Keymaps' },
+      { "<leader>sf", builtin.find_files,  desc = 'Search Files' },
+      { "<leader>ss", builtin.builtin,     desc = 'Search Select Telescope' },
+      { "<leader>sw", builtin.grep_string, desc = 'Search current Word' },
+      { "<leader>sg", builtin.live_grep,   desc = 'Search by Grep' },
+      { "<leader>sd", builtin.diagnostics, desc = 'Search Diagnostics' },
+      { "<leader>sr", builtin.resume,      desc = 'Search Resume' },
+      {
+        "<leader>s.",
+        builtin.oldfiles,
+        desc =
+        'Search Recent Files ("." for repeat)'
+      },
+      { "<leader>gy",  function() require('gitlinker').get_buf_range_url('n') end, desc = 'Get git link' },
+      { "<leader>cs",  function() vim.cmd(":ClangdSwitchSourceHeader") end,        desc = 'Clangd Switch source/header' },
+      { "<leader>ng",  function() vim.cmd(":Neogit") end,                          desc = 'Open Neogit' },
+      { "<leader>o",   group = "ollama" },
+      { "<leader>h",   group = "harpoon" },
+      { "<leader>ha",  harpoon.add_file,                                           desc = 'Harpoon Add file' },
+      { "<leader>hn",  require("harpoon.ui").nav_next,                             desc = 'Harpoon Navigate Next' },
+      { "<leader>hp",  require("harpoon.ui").nav_prev,                             desc = 'Harpoon Navigate Previous' },
+      { "<leader>hm",  require("harpoon.ui").toggle_quick_menu,                    desc = 'Harpoon Toggle Quick Menu' },
+      { "<leader>hm",  require("harpoon.cmd-ui").toggle_quick_menu,                desc = 'Harpoon Toggle Cmd-UI' },
+      { "<leader>i",   group = "icon" },
+      { "<leader>in",  function() vim.cmd(":IconPickerNormal") end,                desc = 'Icon Picker Normal' },
+      { "<leader>ii",  function() vim.cmd(":IconPickerInsert") end,                desc = 'Icon Picker Insert' },
+      { "<leader>neo", group = "neo" },
+      { "<leader>gg",  function() vim.cmd(":Neogit") end,                          desc = 'Neogit' },
+      { "<leader>n",   group = "neotree" },
+      { "<leader>nr",  function() vim.cmd(":Neotree reveal") end,                  desc = 'Neotree reveal' },
+      { "<leader>ng", function() vim.cmd(":Neotree git_status") end,              desc = 'Neotree git status' }
+    })
   end
 }

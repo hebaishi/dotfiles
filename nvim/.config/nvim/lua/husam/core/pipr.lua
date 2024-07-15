@@ -56,4 +56,4 @@ vim.keymap.set('n', '<Leader>pp', function()
     end
   }
   pipr_term:toggle()
-end, {})
+end, { desc = "Open pipr" })

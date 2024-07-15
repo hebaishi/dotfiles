@@ -6,4 +6,4 @@ vim.keymap.set('n', '<Leader>lg', function()
     dir = ".",
   }
   lazygit_term:toggle()
-end, {})
+end, { desc = "Open Lazygit" })

@@ -4,7 +4,7 @@ return {
     vim.keymap.set('n', '<Leader>xx', function()
       vim.cmd("w")
       vim.cmd("source %")
-    end, {})
+    end, {desc="Execute current file"})
     require 'lspconfig'.lua_ls.setup {
       settings = {
         Lua = {

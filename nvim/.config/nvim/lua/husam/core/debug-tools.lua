@@ -52,4 +52,4 @@ vim.keymap.set('n', '<leader>da', function()
         end
       end
     end)
-end)
+end, { desc = "Add debug entry" })
