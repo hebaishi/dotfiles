@@ -1,6 +1,3 @@
-vim.keymap.set('n', '<F3>', function()
-  vim.lsp.buf.code_action({ apply = true })
-end, {})
 local async_command = 'cmake --build build --target all'
 vim.keymap.set('n', '<F7>', function()
   vim.cmd(':copen')
