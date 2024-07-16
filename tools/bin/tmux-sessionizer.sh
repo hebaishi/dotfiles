@@ -1,6 +1,6 @@
 #!/bin/bash
 function list_dirs() {
-  top_level_dirs="~/personal/git ~/work/git"
+  top_level_dirs="~/personal/git ~/work/git ~"
   for dir in $top_level_dirs; do
     dir="${dir/#\~/$HOME}"
     local_result=""
