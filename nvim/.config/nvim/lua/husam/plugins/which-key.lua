@@ -21,6 +21,7 @@ return {
     local wk = require("which-key")
     local builtin = require 'telescope.builtin'
     local harpoon = require 'harpoon'
+    local async_command = 'cmake --build build --target all'
     wk.setup({
       preset = "modern",
       icons = {
@@ -95,6 +96,24 @@ return {
         desc = 'Next quickfix item'
       },
       { "<leader>qc", function() vim.cmd(":cclose") end, desc = 'Close quickfix window' },
+      { "<leader>m",  group = "makeprg" },
+      {
+        "<leader>mr",
+        function()
+          vim.cmd(':copen')
+          vim.cmd(':AsyncRun ' .. async_command)
+        end,
+        desc = 'Makeprg Run'
+      },
+      {
+        "<leader>ms",
+        function()
+          vim.ui.input({ prompt = 'Enter makeprg command: ' }, function(input)
+            async_command = input
+          end)
+        end,
+        desc = 'Makeprg set'
+      },
     })
   end
 }
