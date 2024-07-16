@@ -73,7 +73,28 @@ return {
       { "<leader>gg",  function() vim.cmd(":Neogit") end,                          desc = 'Neogit' },
       { "<leader>n",   group = "neotree" },
       { "<leader>nr",  function() vim.cmd(":Neotree reveal") end,                  desc = 'Neotree reveal' },
-      { "<leader>ng", function() vim.cmd(":Neotree git_status") end,              desc = 'Neotree git status' }
+      { "<leader>ng",  function() vim.cmd(":Neotree git_status") end,              desc = 'Neotree git status' },
+      {
+        "[q",
+        function()
+          local status_ok, _ = pcall(vim.cmd, ':cp')
+          if status_ok == false then
+            vim.cmd(':clast')
+          end
+        end,
+        desc = 'Previous quickfix item'
+      },
+      {
+        "]q",
+        function()
+          local status_ok, _ = pcall(vim.cmd, ':cn')
+          if status_ok == false then
+            vim.cmd(':cfirst')
+          end
+        end,
+        desc = 'Next quickfix item'
+      },
+      { "<leader>qc", function() vim.cmd(":cclose") end, desc = 'Close quickfix window' },
     })
   end
 }

@@ -1,15 +1,6 @@
 vim.keymap.set('n', '<F3>', function()
   vim.lsp.buf.code_action({ apply = true })
 end, {})
-vim.keymap.set('n', '<F12>', function()
-  vim.cmd(':cclose')
-end, {})
-vim.keymap.set('n', '<F8>', function()
-  local status_ok, _ = pcall(vim.cmd, ':cn')
-  if status_ok == false then
-    vim.cmd(':crewind')
-  end
-end, {})
 local async_command = 'cmake --build build --target all'
 vim.keymap.set('n', '<F7>', function()
   vim.cmd(':copen')
@@ -19,7 +10,4 @@ vim.keymap.set('n', '<F2>', function()
   vim.ui.input({ prompt = 'Enter makeprg command: ' }, function(input)
     async_command = input
   end)
-end, {})
-vim.keymap.set('n', '<S-F7>', function()
-  vim.cmd(':cclose')
 end, {})
