@@ -133,5 +133,14 @@ return {
     end)
     vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰁔', texthl = '', linehl = '', numhl = '' })
+    vim.keymap.set('n', '<F9>', function()
+      require('dap').toggle_breakpoint()
+    end, {})
+    vim.keymap.set('n', '<F11>', function()
+      require('dap').step_into()
+    end, {})
+    vim.keymap.set('n', '<F10>', function()
+      require('dap').step_over()
+    end, {})
   end
 }
