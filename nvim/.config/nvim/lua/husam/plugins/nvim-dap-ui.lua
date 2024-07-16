@@ -76,5 +76,8 @@ return {
         max_value_lines = 100
       }
     })
+    vim.keymap.set('n', '<Leader>db', function()
+      require("dapui").toggle()
+    end, { desc = "Start debugging" })
   end
 }
