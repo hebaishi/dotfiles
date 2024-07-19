@@ -59,14 +59,13 @@ return {
       },
       { "<leader>gy",  function() require('gitlinker').get_buf_range_url('n') end, desc = 'Get git link' },
       { "<leader>cs",  function() vim.cmd(":ClangdSwitchSourceHeader") end,        desc = 'Clangd Switch source/header' },
-      { "<leader>ng",  function() vim.cmd(":Neogit") end,                          desc = 'Open Neogit' },
       { "<leader>o",   group = "ollama" },
       { "<leader>h",   group = "harpoon" },
       { "<leader>ha",  harpoon.add_file,                                           desc = 'Harpoon Add file' },
       { "<leader>hn",  require("harpoon.ui").nav_next,                             desc = 'Harpoon Navigate Next' },
       { "<leader>hp",  require("harpoon.ui").nav_prev,                             desc = 'Harpoon Navigate Previous' },
-      { "<leader>hm",  require("harpoon.ui").toggle_quick_menu,                    desc = 'Harpoon Toggle Quick Menu' },
-      { "<leader>hm",  require("harpoon.cmd-ui").toggle_quick_menu,                desc = 'Harpoon Toggle Cmd-UI' },
+      { "<leader>hu",  require("harpoon.ui").toggle_quick_menu,                    desc = 'Harpoon Toggle Quick Menu' },
+      { "<leader>hc",  require("harpoon.cmd-ui").toggle_quick_menu,                desc = 'Harpoon Toggle Cmd-UI' },
       { "<leader>i",   group = "icon" },
       { "<leader>in",  function() vim.cmd(":IconPickerNormal") end,                desc = 'Icon Picker Normal' },
       { "<leader>ii",  function() vim.cmd(":IconPickerInsert") end,                desc = 'Icon Picker Insert' },
@@ -76,26 +75,6 @@ return {
       { "<leader>nr",  function() vim.cmd(":Neotree reveal") end,                  desc = 'Neotree reveal' },
       { "<leader>ng",  function() vim.cmd(":Neotree git_status") end,              desc = 'Neotree git status' },
       { "<leader>nc",  function() vim.cmd(":Neotree close") end,                   desc = 'Neotree close' },
-      {
-        "[q",
-        function()
-          local status_ok, _ = pcall(vim.cmd, ':cp')
-          if status_ok == false then
-            vim.cmd(':clast')
-          end
-        end,
-        desc = 'Previous quickfix item'
-      },
-      {
-        "]q",
-        function()
-          local status_ok, _ = pcall(vim.cmd, ':cn')
-          if status_ok == false then
-            vim.cmd(':cfirst')
-          end
-        end,
-        desc = 'Next quickfix item'
-      },
       { "<leader>qc", function() vim.cmd(":cclose") end, desc = 'Close quickfix window' },
       { "<leader>m",  group = "makeprg" },
       {
