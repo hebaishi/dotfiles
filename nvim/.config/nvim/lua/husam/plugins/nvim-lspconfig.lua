@@ -60,5 +60,6 @@ return {
       }
     }
     require 'lspconfig'.bashls.setup {}
+    require 'lspconfig'.marksman.setup {}
   end
 }
