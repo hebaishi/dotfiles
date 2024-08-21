@@ -33,7 +33,7 @@ return {
       CodeGen2 = {
         prompt = "$input. Only show the code. Enclose the code in a markdown code block.",
         input_label = "> ",
-        model = "llama3",
+        model = "llama3.1",
         action = "insert",
         extract = "```%w*\n(.-)```"
       }
