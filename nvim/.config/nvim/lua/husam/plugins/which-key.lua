@@ -49,6 +49,7 @@ return {
       { "<leader>ss", builtin.builtin,     desc = 'Search Select Telescope' },
       { "<leader>sw", builtin.grep_string, desc = 'Search current Word' },
       { "<leader>sg", builtin.live_grep,   desc = 'Search by Grep' },
+      { "<leader>sG", builtin.git_status,  desc = 'Search Git status' },
       { "<leader>sd", builtin.diagnostics, desc = 'Search Diagnostics' },
       { "<leader>sr", builtin.resume,      desc = 'Search Resume' },
       { "<leader>ne", group = "neorg"},
