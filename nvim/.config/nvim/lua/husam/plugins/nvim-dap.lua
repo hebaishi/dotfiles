@@ -2,15 +2,20 @@ return {
   "mfussenegger/nvim-dap",
   config = function()
     local dap = require('dap')
-    dap.adapters.node2 = {
-      type = 'executable',
-      command = 'node',
-      args = { os.getenv('HOME') .. '/dev/microsoft/vscode-node-debug2/out/src/nodeDebug.js' },
+    local home = os.getenv('HOME')
+    dap.adapters["pwa-node"] = {
+      type = "server",
+      host = "localhost",
+      port = "${port}",
+      executable = {
+        command = "node",
+        args = { home .. "/dev/js-debug/src/dapDebugServer.js", "${port}" },
+      }
     }
     dap.configurations.javascript = {
       {
         name = 'Launch',
-        type = 'node2',
+        type = 'pwa-node',
         request = 'launch',
         program = '${file}',
         cwd = vim.fn.getcwd(),
