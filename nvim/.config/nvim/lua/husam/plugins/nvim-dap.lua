@@ -24,6 +24,20 @@ return {
         console = 'integratedTerminal',
       },
       {
+        name = 'Launch Jest',
+        type = 'pwa-node',
+        request = 'launch',
+        runtimeArgs = {
+          "--experimental-vm-modules",
+          "./node_modules/jest/bin/jest.js",
+          "--runInBand",
+        },
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = 'inspector',
+        console = 'integratedTerminal',
+      },
+      {
         -- For this to work you need to make sure the node process is started with the `--inspect` flag.
         name = 'Attach to process',
         type = 'node2',
