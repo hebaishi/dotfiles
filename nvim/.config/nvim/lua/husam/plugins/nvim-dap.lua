@@ -10,7 +10,10 @@ return {
       port = "${port}",
       executable = {
         command = "node",
-        args = { home .. "/dev/js-debug/src/dapDebugServer.js", "${port}" },
+        args = {
+          home .. "/dev/js-debug/src/dapDebugServer.js",
+          "${port}",
+        },
       }
     }
     dap.configurations.javascript = {
