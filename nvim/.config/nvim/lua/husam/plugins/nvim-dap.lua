@@ -3,6 +3,7 @@ return {
   config = function()
     local dap = require('dap')
     local home = os.getenv('HOME')
+    local Path = require('plenary.path')
     dap.adapters["pwa-node"] = {
       type = "server",
       host = "localhost",
@@ -32,7 +33,9 @@ return {
           "./node_modules/jest/bin/jest.js",
           "--runInBand",
         },
-        cwd = vim.fn.getcwd(),
+        cwd = function()
+          return Path:new(vim.fn.expand('%:p')):parent():absolute()
+        end,
         sourceMaps = true,
         protocol = 'inspector',
         console = 'integratedTerminal',
