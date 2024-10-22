@@ -141,6 +141,13 @@ return {
           return get_current_executable()
         end,
         cwd = '${workspaceFolder}',
+        setupCommands = {
+          {
+            description = "Enable pretty-printing for gdb",
+            text = "-enable-pretty-printing",
+            ignoreFailures = true
+          }
+        },
         stopAtEntry = false,
       }
       dap.configurations.cpp = { auto_detect_executable }
