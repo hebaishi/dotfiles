@@ -12,3 +12,11 @@ vim.g.loaded_netrwPlugin = 1
 vim.cmd(':set relativenumber')
 vim.cmd('set makeprg=cmake\\ --build\\ build\\ --target\\ all')
 vim.g.markdown_fenced_languages = { 'html', 'python', 'lua', 'vim', 'typescript', 'javascript', 'json', 'cpp', 'toml' }
+-- Workaround for removing the signcolumn from new terminal windows
+-- Can be removed post 0.11.0
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.signcolumn = "no"
+  end,
+})
