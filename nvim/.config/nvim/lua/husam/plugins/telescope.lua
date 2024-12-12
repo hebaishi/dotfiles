@@ -7,6 +7,11 @@ return {
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
     require('telescope').setup({
+      defaults = {
+        file_ignore_patterns = {
+          "^.git/"
+        }
+      },
       pickers = {
         find_files = {
           hidden = true
