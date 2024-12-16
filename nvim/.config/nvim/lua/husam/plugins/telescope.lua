@@ -27,5 +27,6 @@ return {
     })
     require('telescope').load_extension('fzf')
     vim.keymap.set('n', '<leader>sm', require('husam.config.telescope.multigrep').setup, { desc = '[ ] Multigrep' })
+    vim.keymap.set('n', '<leader>si', require('husam.config.telescope.gitlab_issues').setup, { desc = '[ ] Search Gitlab issues' })
   end
 }
