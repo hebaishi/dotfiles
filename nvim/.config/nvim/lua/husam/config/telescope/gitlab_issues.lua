@@ -6,39 +6,8 @@ local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local previewers = require('telescope.previewers')
 -- local async = require('plenary.async')
-local Job = require('plenary.job')
-local glab_cmd = vim.fn.expand("~/go/bin/glab")
-
+local gitlab = require('husam.utils.gitlab')
 local M = {}
-
--- Helper function to create an async job
-local function create_glab_job(cmd_args, cwd, callback)
-  return Job:new({
-    command = glab_cmd,
-    args = cmd_args,
-    cwd = cwd,
-    on_exit = function(j, return_val)
-      if return_val == 0 then
-        local output = j:result()
-        local json_str = table.concat(output, "")
-        local ok, parsed = pcall(vim.json.decode, json_str)
-        if ok then
-          callback(parsed)
-        else
-          vim.schedule(function()
-            vim.notify("Failed to parse JSON output from glab", vim.log.levels.ERROR)
-          end)
-          callback({})
-        end
-      else
-        vim.schedule(function()
-          vim.notify("glab command failed: " .. table.concat(j:stderr_result(), "\n"), vim.log.levels.ERROR)
-        end)
-        callback({})
-      end
-    end,
-  })
-end
 
 -- Issue previewer
 local issue_previewer = previewers.new_buffer_previewer({
@@ -51,7 +20,7 @@ local issue_previewer = previewers.new_buffer_previewer({
     vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, { "Loading issue details..." })
 
     -- Create the job
-    local job = create_glab_job(
+    local job = gitlab.create_glab_job(
       { 'issue', 'view', entry.value.iid, '--output', 'json' },
       vim.uv.cwd(),
       vim.schedule_wrap(function(issue_data)
@@ -154,7 +123,7 @@ local function search_issues(opts)
   end
 
   -- Fetch issues asynchronously
-  create_glab_job(
+  gitlab.create_glab_job(
     cmd_args,
     opts.cwd,
     vim.schedule_wrap(function(issues)
@@ -185,10 +154,6 @@ end
 
 -- Setup function
 function M.setup(opts)
-  -- Check if glab is installed
-  if vim.fn.executable(glab_cmd) ~= 1 then
-    error("glab CLI tool is not installed. Please install it first.")
-  end
   search_issues(opts)
 end
 
