@@ -62,6 +62,7 @@ return {
         'Search Recent Files ("." for repeat)'
       },
       { "<leader>gy",  function() require('gitlinker').get_buf_range_url('n') end, desc = 'Get git link' },
+      { "<leader>gc",  require('husam.core.gitlab_comments').get_mr_comments, desc = 'Get comments for current MR' },
       { "<leader>cs",  function() vim.cmd(":ClangdSwitchSourceHeader") end,        desc = 'Clangd Switch source/header' },
       { "<leader>o",   group = "ollama" },
       { "<leader>h",   group = "harpoon" },
