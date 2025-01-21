@@ -7,7 +7,7 @@ return {
   },
   config = function()
     local builtin = require 'telescope.builtin'
-    vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+    vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = 'Find existing buffers' })
 
     require('telescope').setup({
       defaults = {
