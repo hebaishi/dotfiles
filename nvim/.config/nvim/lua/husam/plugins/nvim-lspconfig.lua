@@ -1,5 +1,8 @@
 return {
   "neovim/nvim-lspconfig",
+  dependencies = {
+    "b0o/schemastore.nvim"
+  },
   config = function()
     vim.keymap.set('n', '<Leader>xx', function()
       vim.cmd("w")
@@ -33,7 +36,19 @@ return {
       },
     }
     require 'lspconfig'.vtsls.setup {}
-    require 'lspconfig'.jsonls.setup {}
+    require 'lspconfig'.jsonls.setup {
+      settings = {
+        json = {
+          schemas = {
+            {
+              fileMatch = { "launch.json" },
+              url = "https://raw.githubusercontent.com/mfussenegger/dapconfig-schema/master/dapconfig-schema.json"
+            }
+          }
+        }
+      }
+    }
+
     require 'lspconfig'.rust_analyzer.setup {}
     require 'lspconfig'.pylsp.setup {
       settings = {
