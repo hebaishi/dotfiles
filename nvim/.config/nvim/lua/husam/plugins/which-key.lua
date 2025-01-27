@@ -81,6 +81,7 @@ return {
       { "<leader>ng",  function() vim.cmd(":Neotree git_status") end,              desc = 'Neotree git status' },
       { "<leader>nc",  function() vim.cmd(":Neotree close") end,                   desc = 'Neotree close' },
       { "<leader>qc", function() vim.cmd(":cclose") end, desc = 'Close quickfix window' },
+      { "<leader><leader>", '<C-^>', desc = 'Alternate file' },
       { "<leader>m",  group = "makeprg" },
       {
         "<leader>mr",
