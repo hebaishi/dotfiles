@@ -20,7 +20,7 @@ return {
     },
   },
   opts = {
-    model = "llama3.1",
+    model = "deepseek-coder-v2",
     url = "http://127.0.0.1:11434",
     serve = {
       on_start = false,
@@ -31,7 +31,7 @@ return {
     },
     prompts = {
       CodeGen2 = {
-        prompt = "$input. Only show the code. Enclose the code in a markdown code block.",
+        prompt = "$input",
         input_label = "> ",
         model = "llama3.1",
         action = "insert",
