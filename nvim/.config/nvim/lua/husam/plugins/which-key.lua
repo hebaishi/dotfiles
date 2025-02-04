@@ -43,6 +43,8 @@ return {
     wk.add({
       { "<leader>d",   group = "debug" },
       { "<leader>s",   group = "search" },
+      { '<leader>p',   'o<ESC>p',                              desc = 'Paste on new line below' },
+      { '<leader>P',   'O<ESC>p',                              desc = 'Paste on new line above' },
       { "<leader>sh",  builtin.help_tags,                      desc = 'Search Help' },
       { "<leader>sk",  builtin.keymaps,                        desc = 'Search Keymaps' },
       { "<leader>sf",  builtin.find_files,                     desc = 'Search Files' },
