@@ -1,3 +1,28 @@
+local function find_package_json_path()
+  -- Get the current buffer's full path
+  local current_file = vim.fn.expand('%:p')
+  -- Get the directory of the current file
+  local current_dir = vim.fn.fnamemodify(current_file, ':h')
+
+  -- Keep going up until we find package.json or hit root
+  local current_path = current_dir
+  while current_path ~= '/' do
+    local package_path = current_path .. '/package.json'
+    if vim.fn.filereadable(package_path) == 1 then
+      return current_path
+    end
+    -- Go up one directory
+    current_path = vim.fn.fnamemodify(current_path, ':h')
+  end
+
+  -- Check root directory as final attempt
+  if vim.fn.filereadable('/package.json') == 1 then
+    return '.'
+  end
+
+  return vim.fn.getcwd()
+end
+
 return {
   "mfussenegger/nvim-dap",
   config = function()
@@ -22,7 +47,7 @@ return {
         type = 'pwa-node',
         request = 'launch',
         program = '${file}',
-        cwd = vim.fn.getcwd(),
+        cwd = find_package_json_path,
         sourceMaps = true,
         protocol = 'inspector',
         console = 'integratedTerminal',
@@ -36,9 +61,7 @@ return {
           "./node_modules/jest/bin/jest.js",
           "--runInBand",
         },
-        cwd = function()
-          return Path:new(vim.fn.expand('%:p')):parent():absolute()
-        end,
+        cwd = find_package_json_path,
         sourceMaps = true,
         protocol = 'inspector',
         console = 'integratedTerminal',
