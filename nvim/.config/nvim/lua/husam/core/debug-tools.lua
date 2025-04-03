@@ -76,13 +76,18 @@ vim.keymap.set('n', '<leader>da', function()
         elseif program:match("%.js$") then
           type = 'pwa-node'
         end
-        local launch_json_path = Path:new(vim.fn.getcwd() .. '/.vscode/launch.json')
+        local subdirectory = '.vscode'
+        local launch_json_path = Path:new(vim.fn.getcwd() .. '/' .. subdirectory .. '/launch.json')
         local file_lines
         local config
         if launch_json_path:exists() then
           file_lines = launch_json_path:read()
           config = vim.json.decode(file_lines)
         else
+          local subdirectory_path = vim.fn.getcwd() .. '/' .. subdirectory
+          if vim.fn.isdirectory(subdirectory_path) ~= 1 then
+            vim.fn.mkdir(subdirectory_path)
+          end
           config = {
             version = "0.2.0",
             configurations = {}
