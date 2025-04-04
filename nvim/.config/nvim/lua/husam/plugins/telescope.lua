@@ -25,8 +25,12 @@ return {
         fzf = {}
       }
     })
-    require('telescope').load_extension('fzf')
+    local header_finder = require('husam.config.telescope.header_finder')
+    header_finder.setup()
     vim.keymap.set('n', '<leader>sm', require('husam.config.telescope.multigrep').setup, { desc = 'Multigrep' })
     vim.keymap.set('n', '<leader>si', require('husam.config.telescope.gitlab_issues').setup, { desc = 'Search Gitlab issues' })
+    require('telescope').load_extension('fzf')
+    vim.keymap.set('n', '<leader>Hp', header_finder.find_project_header, { desc = 'Find project header files' })
+    vim.keymap.set('n', '<leader>Hs', header_finder.find_system_header, { desc = 'Find system header files' })
   end
 }
