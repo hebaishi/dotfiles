@@ -7,3 +7,7 @@ git:
   paging:
     colorArg: always
     pager: delta --dark --paging=never
+keybinding:
+  commits:
+    moveDownCommit: '<c-n>' # changed from <c-j>
+    moveUpCommit: '<c-p>'   # changed from <c-k>
