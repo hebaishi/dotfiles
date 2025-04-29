@@ -77,7 +77,8 @@ return {
     dap.adapters.cppdbg = {
       id = 'cppdbg',
       type = 'executable',
-      command = '/home/hebaishi/Downloads/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
+      command = 'gdb',
+      args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
     }
     dap.adapters.python = function(cb, config)
       local bin_directory = 'Scripts'
@@ -163,7 +164,7 @@ return {
           end
           return get_current_executable()
         end,
-        cwd = '${workspaceFolder}',
+        cwd = '${workspaceFolder}/build/bin',
         setupCommands = {
           {
             description = "Enable pretty-printing for gdb",
