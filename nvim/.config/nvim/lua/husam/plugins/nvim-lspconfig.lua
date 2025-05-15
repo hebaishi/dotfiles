@@ -76,5 +76,6 @@ return {
     }
     require 'lspconfig'.bashls.setup {}
     require 'lspconfig'.marksman.setup {}
+    require 'lspconfig'.dartls.setup {}
   end
 }
