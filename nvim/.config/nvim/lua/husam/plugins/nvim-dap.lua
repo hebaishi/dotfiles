@@ -80,35 +80,6 @@ return {
       command = 'gdb',
       args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
     }
-    dap.adapters.python = function(cb, config)
-      local bin_directory = 'Scripts'
-      if vim.loop.os_uname().sysname == 'Linux' then
-        bin_directory = 'bin'
-      end
-      if config.request == 'attach' then
-        ---@diagnostic disable-next-line: undefined-field
-        local port = (config.connect or config).port
-        ---@diagnostic disable-next-line: undefined-field
-        local host = (config.connect or config).host or '127.0.0.1'
-        cb({
-          type = 'server',
-          port = assert(port, '`connect.port` is required for a python `attach` configuration'),
-          host = host,
-          options = {
-            source_filetype = 'python',
-          },
-        })
-      else
-        cb({
-          type = 'executable',
-          command = vim.fn.expand("~") .. '/.virtualenvs/' .. bin_directory .. '/python',
-          args = { '-m', 'debugpy.adapter' },
-          options = {
-            source_filetype = 'python',
-          },
-        })
-      end
-    end
     vim.keymap.set('n', '<F5>', function()
       local auto_detect_executable = {
         name = "Auto-detect Executable",
@@ -176,15 +147,6 @@ return {
       }
       dap.configurations.cpp = { auto_detect_executable }
       dap.configurations.c = { auto_detect_executable }
-      dap.configurations.python = {
-        {
-          type = "python",
-          name = "Current File",
-          request = "launch",
-          program = "${file}",
-          cwd = "${workspaceFolder}"
-        }
-      }
       require('dap').continue()
     end)
     vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
