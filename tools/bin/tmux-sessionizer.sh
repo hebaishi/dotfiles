@@ -1,14 +1,22 @@
 #!/bin/bash
+function find_wrapper() {
+  name=$1
+  location=$2
+  search_type=$3
+  max_depth=$4
+  find $location -maxdepth $max_depth  -name $name -type $search_type
+}
+
 function list_dirs() {
   top_level_dirs="~/personal/git ~/work/git ~"
   for dir in $top_level_dirs; do
     dir="${dir/#\~/$HOME}"
     local_result=""
-    repos="$(find $dir -maxdepth 3 -name .git -type d)"
+    repos="$(find_wrapper .git $dir d 3)"
     local_result="$local_result $repos"
     for repo in $repos; do
       if [[ -d $repo/worktrees ]]; then
-        gitdir_files=$(find $repo/worktrees -maxdepth 2 -name gitdir)
+        gitdir_files=$(find_wrapper gitdir $repo/worktrees f 2)
         for file in $gitdir_files; do
           local_result="$local_result $(cat $file)"
         done
