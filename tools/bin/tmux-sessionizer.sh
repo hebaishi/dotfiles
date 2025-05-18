@@ -4,7 +4,11 @@ function find_wrapper() {
   location=$2
   search_type=$3
   max_depth=$4
-  find $location -maxdepth $max_depth  -name $name -type $search_type
+  if command -v fd &> /dev/null; then
+      fd -H --max-depth $max_depth --type $search_type "^$name\$" $location
+  else
+      find $location -maxdepth $max_depth -name $name -type $search_type
+  fi
 }
 
 function list_dirs() {
