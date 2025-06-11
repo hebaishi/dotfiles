@@ -27,7 +27,7 @@ return {
   "mfussenegger/nvim-dap",
   config = function()
     local dap = require('dap')
-    local home = os.getenv('HOME')
+    local home = vim.fn.expand('~')
     local Path = require('plenary.path')
     dap.adapters["pwa-node"] = {
       type = "server",
