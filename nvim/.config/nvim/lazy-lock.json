@@ -51,6 +51,7 @@
   "taskwarrior.nvim": { "branch": "master", "commit": "b3a2df604c8eeff92fdf4893b4ec064c67e1faaf" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "1f08ed60cafc8f6168b72b80be2b2ea149813e55" },
   "telescope.nvim": { "branch": "master", "commit": "7011eaae0ac1afe036e30c95cf80200b8dc3f21a" },
+  "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "cac10593c4baaacd0f2a1f4d8ba9508667bf3f79" },
   "todo-comments.nvim": { "branch": "main", "commit": "d61567557e2ff5c548c74e96b2d9f8d33e5fcb34" },
   "trouble.nvim": { "branch": "main", "commit": "20d1b30d6925213abece21d35858a16e11d1e9fc" },
   "tunnell.nvim": { "branch": "main", "commit": "7147d6c5d1780dcaec8e8f25a9d2487383d41e55" },
