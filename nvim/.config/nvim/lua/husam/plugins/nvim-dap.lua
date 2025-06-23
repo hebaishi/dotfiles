@@ -77,8 +77,12 @@ return {
     dap.adapters.cppdbg = {
       id = 'cppdbg',
       type = 'executable',
-      command = 'gdb',
-      args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
+      command = home .. '/dev/extension/debugAdapters/bin/OpenDebugAD7',
+    }
+    dap.adapters.codelldb = {
+      id = 'codelldb',
+      type = 'executable',
+      command = home .. '/dev/codelldb/extension/adapter/codelldb',
     }
     vim.keymap.set('n', '<F5>', function()
       local auto_detect_executable = {

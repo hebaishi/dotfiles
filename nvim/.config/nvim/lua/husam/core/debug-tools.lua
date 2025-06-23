@@ -70,7 +70,7 @@ vim.keymap.set('n', '<leader>da', function()
           end
         end
 
-        local type = 'cppdbg'
+        local type = 'codelldb'
         if program:match("%.py$") then
           type = 'python'
         elseif program:match("%.js$") then
@@ -110,6 +110,10 @@ vim.keymap.set('n', '<leader>da', function()
               text = "-enable-pretty-printing",
               ignoreFailures = true
             }
+          }
+        elseif new_config.type == 'codelldb' then
+          new_config.preRunCommands = {
+            "breakpoint name configure --disable cpp_exception"
           }
         elseif new_config.type == 'pwa-node' then
           new_config.runtimeArgs = {
