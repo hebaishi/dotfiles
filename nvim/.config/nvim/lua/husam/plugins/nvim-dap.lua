@@ -153,10 +153,12 @@ return {
       dap.configurations.c = { auto_detect_executable }
       require('dap').continue()
     end)
+    local dapui = require("dapui")
     vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
     vim.fn.sign_define('DapStopped', { text = '󰁔', texthl = '', linehl = '', numhl = '' })
     vim.keymap.set('n', '<F3>', function()
       require('dap').terminate()
+      dapui.close()
     end, {})
     vim.keymap.set('n', '<F9>', function()
       require('dap').toggle_breakpoint()
