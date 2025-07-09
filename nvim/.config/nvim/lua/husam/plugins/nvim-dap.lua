@@ -87,8 +87,11 @@ return {
     vim.keymap.set('n', '<F5>', function()
       local auto_detect_executable = {
         name = "Auto-detect Executable",
-        type = "cppdbg",
+        type = "codelldb",
         request = "launch",
+        preRunCommands = {
+          "breakpoint name configure --disable cpp_exception"
+        },
         program = function()
           local file_path = vim.fn.expand('%:p')
           local get_current_executable = function()
