@@ -44,7 +44,7 @@
   "onedark.nvim": { "branch": "master", "commit": "67a74c275d1116d575ab25485d1bfa6b2a9c38a6" },
   "plenary.nvim": { "branch": "master", "commit": "267282a9ce242bbb0c5dc31445b6d353bed978bb" },
   "rabbit.nvim": { "branch": "rewrite", "commit": "ea7bc6b7c5b2a7ed9ab0320169fff997d131f236" },
-  "render-markdown.nvim": { "branch": "main", "commit": "1ba6fb7998985736ca3480366c9792be05b93ad7" },
+  "render-markdown.nvim": { "branch": "main", "commit": "3115ff748d6885fe1af349feb6b73de03eda8e12" },
   "schemastore.nvim": { "branch": "main", "commit": "438f4f1f1fb890980cb23002597f99c9579834bd" },
   "snacks.nvim": { "branch": "main", "commit": "450d1d4d4c218ac1df63924d29717caa61c98f27" },
   "tailwind-tools": { "branch": "master", "commit": "999d314444073095494f5a36b90fdba3c432a457" },
