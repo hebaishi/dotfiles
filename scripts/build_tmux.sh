@@ -9,7 +9,7 @@ if [ -d "$clone_dir" ]; then
   git fetch
 else
   mkdir -p $clone_dir
-  git clone https://github.com/neovim/neovim $clone_dir
+  git clone https://github.com/tmux/tmux $clone_dir
 fi
 cd $clone_dir
 git checkout $tmux_version
