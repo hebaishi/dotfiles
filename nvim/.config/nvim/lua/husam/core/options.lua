@@ -11,6 +11,11 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.cmd(':set relativenumber')
 vim.cmd('set makeprg=cmake\\ --build\\ build\\ --target\\ all')
+
+-- Map kj to escape in insert and visual modes
+vim.keymap.set('i', 'kj', '<Esc>', { noremap = true, silent = true })
+vim.keymap.set('v', 'kj', '<Esc>', { noremap = true, silent = true })
+
 vim.g.markdown_fenced_languages = { 'html', 'python', 'lua', 'vim', 'typescript', 'javascript', 'json', 'cpp', 'toml' }
 -- Workaround for removing the signcolumn from new terminal windows
 -- Can be removed post 0.11.0
