@@ -48,6 +48,9 @@ function prettifyJson(minified)
 
   return result
 end
+vim.keymap.set('n', '<leader>dt', function()
+  require('dapui').toggle()
+end, { desc = "Toggle DapUI" })
 
 vim.keymap.set('n', '<leader>da', function()
   local Path = require('plenary.path')
