@@ -23,7 +23,7 @@ local function add_include(include_line)
   local include_line_index = nil
   for i, line in ipairs(lines) do
     if line:match("#include") then
-      include_line_index = i - 1         -- Convert to 0-based index
+      include_line_index = i - 1 -- Convert to 0-based index
       break
     end
   end
