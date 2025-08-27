@@ -32,5 +32,6 @@ return {
     require('telescope').load_extension('fzf')
     vim.keymap.set('n', '<leader>Hp', header_finder.find_project_header, { desc = 'Find project header files' })
     vim.keymap.set('n', '<leader>Hs', header_finder.find_system_header, { desc = 'Find system header files' })
+    vim.keymap.set('n', '<leader>Ha', header_finder.add_standard_header, { desc = 'Find system header files' })
   end
 }

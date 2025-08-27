@@ -12,7 +12,7 @@ local previewers = require('telescope.previewers')
 -- Path to compile_commands.json
 local default_compile_commands_path = "build/compile_commands.json"
 
-local function add_include(include_line)
+M.add_include = function(include_line)
   -- Get the current buffer
   local bufnr = vim.api.nvim_get_current_buf()
 
@@ -306,7 +306,7 @@ function M.find_system_header()
           local header_path = selection.value.relative_path
 
           -- Insert #include directive at cursor position
-          add_include(string.format("#include <%s>", header_path))
+          M.add_include(string.format("#include <%s>", header_path))
         end
       end)
       return true
@@ -366,7 +366,7 @@ function M.find_project_header()
           local rel_path = get_relative_path(current_file, selection.value.path)
 
           -- Insert #include directive at cursor position
-          add_include(string.format('#include "%s"', rel_path))
+          M.add_include(string.format('#include "%s"', rel_path))
         end
       end)
       return true
@@ -376,6 +376,18 @@ end
 
 -- Alias the old function to the new name for backward compatibility
 M.find_header = M.find_system_header
+M.add_standard_header = function()
+  vim.ui.input({
+      prompt = "Enter the standard library header to add to add",
+      default = ''
+    },
+    function(input)
+      if input ~= nil then
+        M.add_include(string.format('#include <%s>', input))
+      end
+    end
+  )
+end
 
 -- Setup function for configuration
 function M.setup(opts)
