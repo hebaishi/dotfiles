@@ -166,7 +166,7 @@ return {
     vim.keymap.set('n', '<F9>', function()
       require('dap').toggle_breakpoint()
     end, {})
-    vim.keymap.set('n', '<F11>', function()
+    vim.keymap.set('n', '<S-F10>', function()
       require('dap').step_into()
     end, {})
     vim.keymap.set('n', '<F10>', function()
