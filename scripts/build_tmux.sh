@@ -2,7 +2,7 @@
 set -e
 sudo apt-get update
 sudo apt-get install -y libevent-dev ncurses-dev build-essential bison pkg-config
-tmux_version=3.5
+tmux_version=3.4
 clone_dir=~/dev/tmux
 if [ -d "$clone_dir" ]; then
   cd $clone_dir
