@@ -1,0 +1,21 @@
+
+[font]
+size = 11.5
+
+[font.bold]
+family = "Input Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "Input Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "Input Nerd Font"
+style = "Regular"
+
+[general]
+import = ['c:\users\vca\AppData\Roaming\alacritty\themes\themes\monokai_charcoal.toml']
+
+[selection]
+save_to_clipboard = true
