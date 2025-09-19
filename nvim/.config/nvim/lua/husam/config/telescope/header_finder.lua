@@ -9,8 +9,25 @@ local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local previewers = require('telescope.previewers')
 
+local function get_compile_commands_path()
+  local clangd_path = vim.fn.getcwd() .. "/.clangd"
+  local compile_commands_path = nil
+
+  if vim.fn.filereadable(clangd_path) == 1 then
+    for line in io.lines(clangd_path) do
+      local match = line:match("^%s*CompilationDatabase:%s*(.+)$")
+      if match then
+        compile_commands_path = vim.fn.fnamemodify(match, ":p") .. "/compile_commands.json"
+        break
+      end
+    end
+  end
+
+  return compile_commands_path
+end
+
 -- Path to compile_commands.json
-local default_compile_commands_path = "build/compile_commands.json"
+local default_compile_commands_path = get_compile_commands_path()
 
 M.add_include = function(include_line)
   -- Get the current buffer
@@ -217,6 +234,10 @@ end
 local function get_compile_command()
   local current_file = vim.fn.expand('%:p')
   local compile_commands_path = vim.g.fuzzy_header_compile_commands or default_compile_commands_path
+  if compile_commands_path == nil then
+    vim.notify('Failed to find compile_commands.json path', vim.log.levels.ERROR)
+    return nil
+  end
 
   -- Check if compile_commands.json exists
   if vim.fn.filereadable(compile_commands_path) == 0 then
