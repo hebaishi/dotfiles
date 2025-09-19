@@ -16,7 +16,7 @@ function list_dirs() {
   for dir in $top_level_dirs; do
     dir="${dir/#\~/$HOME}"
     local_result=""
-    repos="$(find_wrapper .git $dir d 3)"
+    repos="$(find_wrapper .git $dir d 4)"
     local_result="$local_result $repos"
     for repo in $repos; do
       if [[ -d $repo/worktrees ]]; then
