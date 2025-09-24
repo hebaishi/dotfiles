@@ -14,6 +14,12 @@ local function configure_clangd()
     return
   end
 
+  local relative_matches = vim.tbl_map(function(match)
+    return Path:new(match):make_relative()
+  end, matches)
+
+  matches = relative_matches
+
   local function write_clangd(path)
     local clangd_config = string.format("CompileFlags:\n  CompilationDatabase: %s\n", Path:new(path):parent():absolute())
     local clangd_file = Path:new(vim.fn.getcwd(), ".clangd")
