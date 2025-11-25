@@ -1,12 +1,12 @@
 gui:
-    nerdFontsVersion: "3" # nerd fonts version to use ("2" or "3"); empty means don't show nerd font icons
-    theme:
-      selectedLineBgColor:
-        - '#252525' # set to `default` to have no background colour
+  nerdFontsVersion: "3" # nerd fonts version to use ("2" or "3"); empty means don't show nerd font icons
+  theme:
+    selectedLineBgColor:
+      - '#252525' # set to `default` to have no background colour
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
 keybinding:
   commits:
     moveDownCommit: '<c-n>' # changed from <c-j>
