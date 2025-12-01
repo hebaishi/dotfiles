@@ -11,6 +11,7 @@ return {
     local cmp = require('cmp')
     local luasnip = require('luasnip')
     require('husam.config.nvim-cmp.launch_json_source')
+    require('husam.config.nvim-cmp.spec_source')
 
     cmp.setup({
       snippet = {
@@ -57,6 +58,7 @@ return {
         end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
+        { name = 'spec' },
         { name = 'launch_json'},
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_document_symbol' },
