@@ -24,7 +24,6 @@ local heading_pattern = "^(#+)%s+([%d%.]*)%s*%[([%w_.-]+)%]%s*(.*)$"
 ---@param bufnr integer
 ---@return SpecItem[]
 local function get_spec_items(bufnr)
-  print('Inside get spec items')
   local items = {}
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 

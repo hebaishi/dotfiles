@@ -20,7 +20,6 @@ M.source = {
   name = "spec",
   filetype = { enable = { 'c', 'cpp' } }, -- Enable for C and C++ files
   get_trigger_characters = function()
-    print('Inside get_trigger_characters')
     return { '-' }
   end,
 
