@@ -48,3 +48,5 @@ end
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = configure_clangd,
 })
+
+vim.api.nvim_create_user_command("ClangdConfigure", configure_clangd, {})
