@@ -1,6 +1,7 @@
 {
   "LuaSnip": { "branch": "master", "commit": "0b4950a237ce441a6a3a947d501622453f6860ea" },
   "asyncrun.vim": { "branch": "master", "commit": "7191d0c30dd105e5d7f897b9a6ee19cabe734466" },
+  "catppuccin": { "branch": "main", "commit": "193e123cdbc4dd3e86db883d55349e9587f0ded6" },
   "claude-code.nvim": { "branch": "main", "commit": "275c47615f4424a0329290ce1d0c18a8320fd8b0" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "44b16d11215dce86f253ce0c30949813c0a90765" },
   "cmp-nvim-lsp-signature-help": { "branch": "main", "commit": "3d8912ebeb56e5ae08ef0906e3a54de1c66b92f1" },
@@ -41,7 +42,6 @@
   "nvim-treesitter-textobjects": { "branch": "master", "commit": "bf8d2ad35d1d1a687eae6c065c3d524f7ab61b23" },
   "nvim-ts-autotag": { "branch": "main", "commit": "6be1192965df35f94b8ea6d323354f7dc7a557e4" },
   "nvim-web-devicons": { "branch": "master", "commit": "efbfed0567ef4bfac3ce630524a0f6c8451c5534" },
-  "onedark.nvim": { "branch": "master", "commit": "67a74c275d1116d575ab25485d1bfa6b2a9c38a6" },
   "plenary.nvim": { "branch": "master", "commit": "267282a9ce242bbb0c5dc31445b6d353bed978bb" },
   "rabbit.nvim": { "branch": "rewrite", "commit": "ea7bc6b7c5b2a7ed9ab0320169fff997d131f236" },
   "render-markdown.nvim": { "branch": "main", "commit": "3115ff748d6885fe1af349feb6b73de03eda8e12" },
