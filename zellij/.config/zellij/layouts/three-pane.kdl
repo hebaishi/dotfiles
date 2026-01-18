@@ -1,0 +1,9 @@
+disable_tab_bar false
+layout {
+  pane split_direction="vertical" {
+    pane
+    pane
+    pane
+  }
+}
+
