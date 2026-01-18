@@ -74,15 +74,16 @@ return {
         processId = require 'dap.utils'.pick_process,
       },
     }
+    local mason_bin_path = home .. '/.local/share/nvim/mason/bin/'
     dap.adapters.cppdbg = {
       id = 'cppdbg',
       type = 'executable',
-      command = home .. '/dev/extension/debugAdapters/bin/OpenDebugAD7',
+      command = mason_bin_path .. 'OpenDebugAD7',
     }
     dap.adapters.codelldb = {
       id = 'codelldb',
       type = 'executable',
-      command = home .. '/dev/codelldb/extension/adapter/codelldb',
+      command = mason_bin_path .. 'codelldb',
     }
     vim.keymap.set('n', '<F5>', function()
       local auto_detect_executable = {
