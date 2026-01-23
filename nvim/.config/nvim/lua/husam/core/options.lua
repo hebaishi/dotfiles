@@ -17,6 +17,29 @@ vim.keymap.set('i', 'kj', '<Esc>', { noremap = true, silent = true })
 vim.keymap.set('v', 'kj', '<Esc>', { noremap = true, silent = true })
 
 vim.g.markdown_fenced_languages = { 'html', 'python', 'lua', 'vim', 'typescript', 'javascript', 'json', 'cpp', 'toml' }
+
+-- Configure clipboard to use OSC 52 for zellij (copy only)
+if os.getenv("ZELLIJ") then
+  local function paste()
+    return {
+      vim.fn.split(vim.fn.getreg(''), '\n'),
+      vim.fn.getregtype('')
+    }
+  end
+
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+      ['+'] = paste,
+      ['*'] = paste,
+    },
+  }
+end
+
 -- Workaround for removing the signcolumn from new terminal windows
 -- Can be removed post 0.11.0
 vim.api.nvim_create_autocmd("TermOpen", {
