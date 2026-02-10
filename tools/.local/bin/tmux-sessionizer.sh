@@ -40,8 +40,20 @@ fi
 selected_path=$(echo $selected | sed -e 's/:/\//')
 selected=$(echo $selected | cut -f2 -d:)
 
-selected_name=$(echo "$selected" | tr . _ | tr '/' '_')
+selected_name=$(echo "$selected" | tr . _)
 tmux_running=$(pgrep tmux | grep -v $(basename $0))
 
-cd $selected_path
-zellij attach --create $selected_name
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -u -s $selected_name -c $selected_path
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected_path
+fi
+
+if [[ -z $TMUX ]]; then
+  tmux attach -t $selected_name
+else
+  tmux switch-client -t $selected_name
+fi
