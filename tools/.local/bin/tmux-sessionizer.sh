@@ -44,7 +44,7 @@ selected_name=$(echo "$selected" | tr . _)
 tmux_running=$(pgrep tmux | grep -v $(basename $0))
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -u -s $selected_name -c $selected_path
+    tmux new-session -s $selected_name -c $selected_path
     exit 0
 fi
 
