@@ -127,7 +127,7 @@ eval "$(rbenv init -)"
 alias mux=tmuxinator
 export EDITOR=nvim
 alias lg=lazygit
-alias ta='tmux -u attach -t $(tmux ls | cut -f1 -d: | fzf --margin 40% --border=sharp --header="Select a tmux session" --header-first)'
+alias ta='tmux attach -t $(tmux ls | cut -f1 -d: | fzf --header="Select a tmux session" --header-first)'
 alias tn='tmux -u new -s $1'
 alias tnd='tmux -u new -s $(basename $(pwd))'
 # =============================================================================
