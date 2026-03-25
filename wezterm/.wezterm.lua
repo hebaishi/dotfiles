@@ -13,7 +13,7 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.font_size = 9.0
+config.font_size = 12.0
 
 -- For streaming
 -- config.font = wezterm.font('SauceCodePro NF Medium')
@@ -30,3 +30,4 @@ config.ssh_domains = {
 }
 config.default_domain = "linux"
 return config
+
