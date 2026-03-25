@@ -21,4 +21,12 @@ config.font_size = 9.0
 config.font = wezterm.font('Input Nerd Font')
 config.default_prog = { 'powershell.exe' }
 -- and finally, return the configuration to wezterm
+config.ssh_domains = {
+  {
+    name = "linux",
+    remote_address = "linux",
+    multiplexing = "None",
+  },
+}
+config.default_domain = "linux"
 return config
