@@ -1,0 +1,6 @@
+auto_sync = false
+update_check = true
+
+[daemon]
+enabled = true
+autostart = true
