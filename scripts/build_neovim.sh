@@ -14,7 +14,7 @@ fi
 
 cd $clone_dir
 git checkout $version
-sudo apt-get install ninja-build gettext cmake unzip curl
+sudo apt-get install -y ninja-build gettext cmake unzip curl
 cmake -S cmake.deps -B .deps -G Ninja -D CMAKE_BUILD_TYPE=$build_type
 cmake --build .deps
 cmake -B build -G Ninja -D CMAKE_BUILD_TYPE=$build_type
