@@ -119,12 +119,8 @@ fi
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 . "$HOME/.cargo/env"
-export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="~/go/bin:$PATH"
-export PATH="$(yarn global bin):$PATH"
-export PATH="~/dev/flutter/bin:$PATH"
 export PATH="$PATH:/usr/local/go/bin"
-eval "$(rbenv init -)"
 alias mux=tmuxinator
 export EDITOR=nvim
 alias lg=lazygit
