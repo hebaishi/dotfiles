@@ -290,12 +290,14 @@ def pick_candidate(candidates: list[Candidate]) -> Optional[Candidate]:
     fzf_input = "\n".join(lines)
 
     try:
-        result = subprocess.run(
-            ["fzf", "--ansi", "--with-nth=2..", "--delimiter=\t", "--prompt=opencode> "],
-            input=fzf_input,
-            capture_output=True,
-            text=True,
-        )
+        with open("/dev/tty", "w") as tty:
+            result = subprocess.run(
+                ["fzf", "--ansi", "--with-nth=2..", "--delimiter=\t", "--prompt=opencode> "],
+                input=fzf_input,
+                stdout=subprocess.PIPE,
+                stderr=tty,
+                text=True,
+            )
     except FileNotFoundError:
         print("error: fzf not found. Install fzf or select manually.", file=sys.stderr)
         for line in lines:
