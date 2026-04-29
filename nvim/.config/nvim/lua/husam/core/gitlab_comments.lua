@@ -9,22 +9,25 @@ M.create_job = function(page, callback)
     { "mr", "view", "-c", "--output", "json", "--page", tostring(page), "--per-page", tostring(M.items_per_page) },
     vim.uv.cwd(),
     vim.schedule_wrap(function(data)
-      local notes = data.Notes or {}
-      for _, value in ipairs(notes) do
-        if (value.type == "DiffNote" and not value.resolved) then
-          table.insert(M.collected_items, {
-            filename = value.position.new_path,
-            lnum = value.position.new_line,
-            text = value.author.username .. ": " .. value.body,
-            value = true,
-            type = 'I',
-          })
+      local discussions = data.Discussions or {}
+      for _, discussion in ipairs(discussions) do
+        local notes = discussion.notes or {}
+        for _, value in ipairs(notes) do
+          if (value.type == "DiffNote" and not value.resolved) then
+            table.insert(M.collected_items, {
+              filename = value.position.new_path,
+              lnum = value.position.new_line,
+              text = value.author.username .. ": " .. value.body,
+              value = true,
+              type = 'I',
+            })
+          end
         end
       end
       print("Got " ..
-        tostring(#notes) ..
-        " items and collected " .. #M.collected_items .. " diffnotes in page " .. tostring(M.current_page))
-      if #notes < M.items_per_page then
+        tostring(#discussions) ..
+        " discussions and collected " .. #M.collected_items .. " diffnotes in page " .. tostring(M.current_page))
+      if #discussions < M.items_per_page then
         callback(M.collected_items)
       else
         M.current_page = M.current_page + 1
