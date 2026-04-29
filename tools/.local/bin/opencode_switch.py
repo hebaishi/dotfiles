@@ -7,7 +7,10 @@ Workflow:
   2. For each, resolve its listening port and working directory.
   3. Query the API to find the most recently updated session for that directory.
   4. Determine whether the session is idle or in an error state.
-  5. Present matching instances via fzf and switch to the corresponding tmux session.
+  5. Locate the exact tmux pane running that opencode process by walking the
+     process tree upward and matching against `tmux list-panes -a` pane PIDs.
+  6. Present matching instances via fzf and switch to the corresponding tmux
+     session:window.pane.
 """
 
 import json
@@ -42,10 +45,22 @@ class SessionInfo:
 
 
 @dataclass
+class TmuxTarget:
+    """Identifies an exact tmux pane by session name, window index, and pane index."""
+    session: str
+    window: int
+    pane: int
+
+    def address(self) -> str:
+        """Return the tmux target address string, e.g. 'mysession:0.1'."""
+        return f"{self.session}:{self.window}.{self.pane}"
+
+
+@dataclass
 class Candidate:
     instance: OpencodeInstance
     session: SessionInfo
-    tmux_session: Optional[str]
+    tmux_target: Optional[TmuxTarget]
 
 
 # ---------------------------------------------------------------------------
@@ -173,26 +188,29 @@ def _determine_state(messages: list) -> str:
     if not messages:
         return "unknown"
 
-    # Opencode appends a skeleton message at the start of each step with cost=0
-    # and no finish/completed, filling it in when the step completes. Skip any
-    # trailing skeletons to find the last substantive message.
-    last = None
-    for msg in reversed(messages):
-        info = msg.get("info", {})
-        cost = info.get("cost")
-        completed = info.get("time", {}).get("completed")
-        finish = info.get("finish")
-        if cost or completed is not None or finish is not None:
-            last = msg
-            break
+    # Check the tail message first.
+    #
+    # Opencode appends a skeleton assistant message at the start of each step
+    # (cost=0, no finish, no time.completed) and fills it in when the step
+    # completes.  If the tail is a skeleton, a turn is actively in flight —
+    # report in_progress immediately without inspecting history.
+    #
+    # The previous approach walked backwards to find the "last substantive
+    # message", but that inadvertently skipped user messages (which also have
+    # no cost/finish/completed) and landed on the previous *completed* assistant
+    # turn, producing a spurious "idle" result while the LLM was generating.
+    tail_info = messages[-1].get("info", {})
+    tail_cost = tail_info.get("cost")
+    tail_completed = tail_info.get("time", {}).get("completed")
+    tail_finish = tail_info.get("finish")
 
-    if last is None:
-        return "in_progress"  # only skeletons — actively starting up
-    info = last.get("info", {})
-    role = info.get("role", "")
-    finish = info.get("finish")
-    completed = info.get("time", {}).get("completed")
-    has_error = bool(info.get("error"))
+    if not tail_cost and tail_completed is None and tail_finish is None:
+        # Tail is a skeleton — generation is in progress.
+        return "in_progress"
+
+    # Tail is a substantive message — evaluate it directly.
+    role = tail_info.get("role", "")
+    has_error = bool(tail_info.get("error"))
 
     if role == "user":
         return "awaiting_input"
@@ -201,11 +219,11 @@ def _determine_state(messages: list) -> str:
         return "error"
 
     if role == "assistant":
-        if finish is not None and completed is not None:
+        if tail_finish is not None and tail_completed is not None:
             return "idle"
-        if finish is None and completed is None:
+        if tail_finish is None and tail_completed is None:
             return "in_progress"
-        if finish is None and completed is not None:
+        if tail_finish is None and tail_completed is not None:
             # Message completed but finish reason was never set — treat as error/interrupted
             return "error"
 
@@ -213,43 +231,96 @@ def _determine_state(messages: list) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Step 5: Find matching tmux session
+# Step 5: Find matching tmux pane via process-tree walk
 # ---------------------------------------------------------------------------
 
-# Common git root prefixes to strip when deriving the tmux session name.
-# These mirror the `top_level_dirs` in tmux-sessionizer.sh.
-_GIT_ROOTS = [
-    Path.home() / "personal" / "git",
-    Path.home() / "work" / "git",
-    Path.home(),
-]
-
-
-def find_tmux_session(cwd: Path) -> Optional[str]:
+def get_pane_map() -> dict[int, TmuxTarget]:
     """
-    Derive a tmux session name from the process CWD by stripping known path
-    prefixes, then verify the session exists with `tmux has-session`.
-    """
-    candidates: list[str] = []
+    Return a mapping of pane_pid -> TmuxTarget for every pane in every tmux
+    session, by running ``tmux list-panes -a``.
 
-    for root in _GIT_ROOTS:
+    Returns an empty dict if tmux is not running or list-panes fails.
+    """
+    pane_map: dict[int, TmuxTarget] = {}
+    try:
+        out = subprocess.check_output(
+            [
+                "tmux", "list-panes", "-a",
+                "-F", "#{pane_pid} #{session_name} #{window_index} #{pane_index}",
+            ],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return pane_map
+
+    for line in out.splitlines():
+        parts = line.split(" ", 3)
+        if len(parts) != 4:
+            continue
+        pid_str, session_name, window_str, pane_str = parts
         try:
-            rel = cwd.relative_to(root)
-            name = str(rel).replace(".", "_")
-            candidates.append(name)
+            pane_map[int(pid_str)] = TmuxTarget(
+                session=session_name,
+                window=int(window_str),
+                pane=int(pane_str),
+            )
         except ValueError:
             continue
 
-    # Also try the bare basename as a last resort
-    candidates.append(cwd.name.replace(".", "_"))
+    return pane_map
 
-    for name in candidates:
-        result = subprocess.run(
-            ["tmux", "has-session", "-t", name],
-            capture_output=True,
-        )
-        if result.returncode == 0:
-            return name
+
+def get_ancestor_pids(pid: int) -> list[int]:
+    """
+    Walk the process tree upward from *pid* (exclusive) and return the list of
+    ancestor PIDs in order (parent first), stopping at PID 1.
+    """
+    ancestors: list[int] = []
+    current = pid
+    seen: set[int] = {pid}
+
+    while True:
+        try:
+            status = Path(f"/proc/{current}/status").read_text()
+        except OSError:
+            break
+
+        ppid: Optional[int] = None
+        for line in status.splitlines():
+            if line.startswith("PPid:"):
+                try:
+                    ppid = int(line.split()[1])
+                except (IndexError, ValueError):
+                    pass
+                break
+
+        if ppid is None or ppid <= 1 or ppid in seen:
+            break
+
+        ancestors.append(ppid)
+        seen.add(ppid)
+        current = ppid
+
+    return ancestors
+
+
+def find_tmux_target(pid: int) -> Optional[TmuxTarget]:
+    """
+    Find the tmux pane that owns *pid* by walking the process tree upward and
+    matching each ancestor PID against the pane map returned by
+    ``tmux list-panes -a``.
+
+    Returns a :class:`TmuxTarget` identifying the session, window, and pane,
+    or ``None`` if no match is found.
+    """
+    pane_map = get_pane_map()
+    if not pane_map:
+        return None
+
+    for ancestor in get_ancestor_pids(pid):
+        if ancestor in pane_map:
+            return pane_map[ancestor]
 
     return None
 
@@ -280,7 +351,7 @@ def pick_candidate(candidates: list[Candidate]) -> Optional[Candidate]:
     lines = []
     for idx, c in enumerate(candidates):
         state_label = _STATE_LABEL.get(c.session.state, c.session.state)
-        tmux = c.tmux_session or "(no tmux session found)"
+        tmux = c.tmux_target.address() if c.tmux_target else "(no tmux pane found)"
         title = c.session.title or c.session.slug
         line = (
             f"{idx}\t"
@@ -323,12 +394,16 @@ def pick_candidate(candidates: list[Candidate]) -> Optional[Candidate]:
 # Step 7: Switch tmux session
 # ---------------------------------------------------------------------------
 
-def switch_to_tmux(session_name: str) -> None:
+def switch_to_tmux(target: TmuxTarget) -> None:
+    """Switch to the exact tmux pane identified by *target*."""
+    address = target.address()
     inside_tmux = bool(os.environ.get("TMUX"))
     if inside_tmux:
-        subprocess.run(["tmux", "switch-client", "-t", session_name])
+        subprocess.run(["tmux", "switch-client", "-t", target.session])
+        subprocess.run(["tmux", "select-window", "-t", f"{target.session}:{target.window}"])
+        subprocess.run(["tmux", "select-pane", "-t", address])
     else:
-        subprocess.run(["tmux", "attach", "-t", session_name])
+        subprocess.run(["tmux", "attach", "-t", address])
 
 
 # ---------------------------------------------------------------------------
@@ -353,10 +428,10 @@ def main() -> int:
             )
             continue
 
-        tmux_name = find_tmux_session(inst.cwd)
+        tmux_target = find_tmux_target(inst.pid)
 
         if session.state in _NEEDS_ATTENTION:
-            candidates.append(Candidate(instance=inst, session=session, tmux_session=tmux_name))
+            candidates.append(Candidate(instance=inst, session=session, tmux_target=tmux_target))
         else:
             state_label = _STATE_LABEL.get(session.state, session.state)
             print(
@@ -372,15 +447,15 @@ def main() -> int:
     if chosen is None:
         return 0
 
-    if chosen.tmux_session is None:
+    if chosen.tmux_target is None:
         print(
-            f"No tmux session found for {chosen.instance.cwd}. "
+            f"No tmux pane found for opencode pid {chosen.instance.pid} ({chosen.instance.cwd}). "
             f"opencode is at http://127.0.0.1:{chosen.instance.port}",
             file=sys.stderr,
         )
         return 1
 
-    switch_to_tmux(chosen.tmux_session)
+    switch_to_tmux(chosen.tmux_target)
     return 0
 
 
