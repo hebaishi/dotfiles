@@ -1,5 +1,5 @@
 local Job = require('plenary.job')
-local glab_cmd = vim.fn.expand("~/go/bin/glab")
+local glab_cmd = vim.fn.expand("glab")
 local M = {}
 -- Helper function to create an async job
 M.create_glab_job = function(cmd_args, cwd, callback)
