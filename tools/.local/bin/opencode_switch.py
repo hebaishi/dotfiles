@@ -205,7 +205,18 @@ def _determine_state(messages: list) -> str:
     tail_finish = tail_info.get("finish")
 
     if not tail_cost and tail_completed is None and tail_finish is None:
-        # Tail is a skeleton — generation is in progress.
+        # Tail looks like a skeleton (cost=0, no finish, no completed).
+        # But it may also be an assistant message that has a running tool call
+        # waiting for user input (e.g. the `question` tool).  Check parts first.
+        _INTERACTIVE_TOOLS = {"question"}
+        for part in messages[-1].get("parts", []):
+            if (
+                part.get("type") == "tool"
+                and part.get("tool") in _INTERACTIVE_TOOLS
+                and part.get("state", {}).get("status") == "running"
+            ):
+                return "awaiting_input"
+        # No interactive tool running — generation is genuinely in progress.
         return "in_progress"
 
     # Tail is a substantive message — evaluate it directly.
