@@ -64,16 +64,6 @@ def find_opencode_instances() -> list[OpencodeInstance]:
     for pid_str in pids:
         pid = int(pid_str.strip())
 
-        # Check if this process has --port in its cmdline
-        try:
-            with open(f"/proc/{pid}/cmdline", "rb") as fh:
-                cmdline = fh.read().decode(errors="replace").split("\x00")
-        except OSError:
-            continue
-
-        if "--port" not in cmdline:
-            continue  # TUI-only instance, skip
-
         # Find the listening TCP port for this PID
         port = _get_listening_port(pid)
         if port is None:
@@ -183,7 +173,21 @@ def _determine_state(messages: list) -> str:
     if not messages:
         return "unknown"
 
-    last = messages[-1]
+    # Opencode appends a skeleton message at the start of each step with cost=0
+    # and no finish/completed, filling it in when the step completes. Skip any
+    # trailing skeletons to find the last substantive message.
+    last = None
+    for msg in reversed(messages):
+        info = msg.get("info", {})
+        cost = info.get("cost")
+        completed = info.get("time", {}).get("completed")
+        finish = info.get("finish")
+        if cost or completed is not None or finish is not None:
+            last = msg
+            break
+
+    if last is None:
+        return "in_progress"  # only skeletons — actively starting up
     info = last.get("info", {})
     role = info.get("role", "")
     finish = info.get("finish")
@@ -197,7 +201,7 @@ def _determine_state(messages: list) -> str:
         return "error"
 
     if role == "assistant":
-        if finish == "stop" and completed is not None:
+        if finish is not None and completed is not None:
             return "idle"
         if finish is None and completed is None:
             return "in_progress"
