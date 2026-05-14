@@ -48,6 +48,15 @@ function prettifyJson(minified)
 
   return result
 end
+vim.keymap.set('n', '<leader>dc', function()
+  local path = vim.fn.expand('%:p')
+  local line = vim.fn.line('.')
+  local ref = string.format('%s:%d', path, line)
+  vim.fn.setreg('+', ref)
+  vim.fn.setreg('"', ref)
+  vim.notify('Copied: ' .. ref)
+end, { desc = "Copy file:line for GDB" })
+
 vim.keymap.set('n', '<leader>dt', function()
   require('dapui').toggle()
 end, { desc = "Toggle DapUI" })
