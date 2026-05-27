@@ -80,15 +80,15 @@ return {
       type = 'executable',
       command = mason_bin_path .. 'OpenDebugAD7',
     }
-    dap.adapters.codelldb = {
+    dap.adapters.lldb = {
       id = 'codelldb',
       type = 'executable',
-      command = mason_bin_path .. 'codelldb',
+      command = '/home/vcacore/inbox/lldb-dap/LLVM-22.1.6-Linux-X64/bin/lldb-dap',
     }
     vim.keymap.set('n', '<F5>', function()
       local auto_detect_executable = {
         name = "Auto-detect Executable",
-        type = "codelldb",
+        type = "lldb",
         request = "launch",
         preRunCommands = {
           "breakpoint name configure --disable cpp_exception"

@@ -82,7 +82,7 @@ vim.keymap.set('n', '<leader>da', function()
           end
         end
 
-        local type = 'codelldb'
+        local type = 'lldb'
         if program:match("%.py$") then
           type = 'python'
         elseif program:match("%.js$") then
@@ -123,7 +123,7 @@ vim.keymap.set('n', '<leader>da', function()
               ignoreFailures = true
             }
           }
-        elseif new_config.type == 'codelldb' then
+        elseif new_config.type == 'lldb' then
           new_config.preRunCommands = {
             "breakpoint name configure --disable cpp_exception"
           }
