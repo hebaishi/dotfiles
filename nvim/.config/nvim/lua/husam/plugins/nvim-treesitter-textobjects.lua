@@ -5,9 +5,8 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   config = function()
-    require 'nvim-treesitter.configs'.setup {
-      textobjects = {
-        select = {
+    require("nvim-treesitter-textobjects").setup {
+      select = {
           enable = true,
 
           -- Automatically jump forward to textobj, similar to targets.vim
@@ -46,7 +45,6 @@ return {
           -- * selection_mode: eg 'v'
           -- and should return true or false
           include_surrounding_whitespace = true,
-        },
       },
     }
   end
