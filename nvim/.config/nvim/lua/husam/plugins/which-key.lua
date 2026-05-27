@@ -59,9 +59,6 @@ return {
       { "<leader>sG",  builtin.git_status,                                              desc = 'Search Git status' },
       { "<leader>sd",  builtin.diagnostics,                                             desc = 'Search Diagnostics' },
       { "<leader>sr",  builtin.resume,                                                  desc = 'Search Resume' },
-      { "<leader>ne",  group = "neorg" },
-      { "<leader>nei", function() vim.cmd("Neorg index") end,                           desc = 'Neorg index' },
-      { "<leader>ner", function() vim.cmd("Neorg return") end,                          desc = 'Neorg return' },
       {
         "<leader>s.",
         builtin.oldfiles,
