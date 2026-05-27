@@ -1,15 +1,10 @@
 return {
   "williamboman/mason-lspconfig.nvim",
   config = function()
-    local lspconfig = require('lspconfig')
-    require('mason-lspconfig').setup_handlers({
-      function(server_name)
-        lspconfig[server_name].setup({
-          on_attach = lsp_attach,
-          capabilities = lsp_capabilities,
-        })
-      end,
+    vim.lsp.config('*', {
+      capabilities = require('cmp_nvim_lsp').default_capabilities(),
     })
+    require('mason-lspconfig').setup()
   end,
   dependencies = {
     "neovim/nvim-lspconfig"

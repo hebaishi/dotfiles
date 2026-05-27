@@ -8,7 +8,8 @@ return {
       vim.cmd("w")
       vim.cmd("source %")
     end, { desc = "Execute current file" })
-    require 'lspconfig'.lua_ls.setup {
+
+    vim.lsp.config('lua_ls', {
       settings = {
         Lua = {
           runtime = {
@@ -29,14 +30,17 @@ return {
           },
         },
       },
-    }
-    require('lspconfig').clangd.setup {
+    })
+
+    vim.lsp.config('clangd', {
       settings = {
         ['clangd'] = {},
       },
-    }
-    require 'lspconfig'.vtsls.setup {}
-    require 'lspconfig'.jsonls.setup {
+    })
+
+    vim.lsp.config('vtsls', {})
+
+    vim.lsp.config('jsonls', {
       settings = {
         json = {
           schemas = {
@@ -47,10 +51,11 @@ return {
           }
         }
       }
-    }
+    })
 
-    require 'lspconfig'.rust_analyzer.setup {}
-    require 'lspconfig'.pylsp.setup {
+    vim.lsp.config('rust_analyzer', {})
+
+    vim.lsp.config('pylsp', {
       settings = {
         pylsp = {
           plugins = {
@@ -64,8 +69,9 @@ return {
           }
         }
       }
-    }
-    require('lspconfig').yamlls.setup {
+    })
+
+    vim.lsp.config('yamlls', {
       settings = {
         yaml = {
           schemas = {
@@ -73,9 +79,23 @@ return {
           },
         },
       }
-    }
-    require 'lspconfig'.bashls.setup {}
-    require 'lspconfig'.marksman.setup {}
-    require 'lspconfig'.dartls.setup {}
+    })
+
+    vim.lsp.config('bashls', {})
+    vim.lsp.config('marksman', {})
+    vim.lsp.config('dartls', {})
+
+    vim.lsp.enable({
+      'lua_ls',
+      'clangd',
+      'vtsls',
+      'jsonls',
+      'rust_analyzer',
+      'pylsp',
+      'yamlls',
+      'bashls',
+      'marksman',
+      'dartls',
+    })
   end
 }
