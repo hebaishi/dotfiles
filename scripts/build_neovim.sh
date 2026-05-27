@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 clone_dir=~/dev/neovim
-version=v0.11.2
+version=v0.12.0
 build_type=Release
 
 if [ -d "$clone_dir" ]; then
