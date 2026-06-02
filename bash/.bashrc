@@ -349,6 +349,3 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-# opencode
-export PATH=/home/husam/.opencode/bin:$PATH
-source -- ~/.local/share/blesh/ble.sh
