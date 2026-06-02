@@ -48,7 +48,6 @@
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
   "trouble.nvim": { "branch": "main", "commit": "bd67efe408d4816e25e8491cc5ad4088e708a69a" },
   "tunnell.nvim": { "branch": "main", "commit": "7147d6c5d1780dcaec8e8f25a9d2487383d41e55" },
-  "vim-graphql": { "branch": "master", "commit": "640d32063cd2526e2395db1b67fcd733524099e2" },
   "vim-tmux-navigator": { "branch": "master", "commit": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
 }
