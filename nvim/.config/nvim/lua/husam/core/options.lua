@@ -48,3 +48,9 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.opt_local.signcolumn = "no"
   end,
 })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function(event)
+    vim.fn.mkdir(vim.fn.fnamemodify(event.match, ":p:h"), "p")
+  end,
+})
