@@ -1,3 +1,11 @@
+-- spec_source.lua
+-- Provides completion for spec-item IDs (e.g. "Req-001") in C/C++ buffers.
+-- Fires automatically via TextChangedI when the word under the cursor starts
+-- with "Req-"; calls vim.fn.complete() with IDs gathered from all listed
+-- markdown buffers.
+--
+-- No external dependencies — uses the native Neovim completion API.
+
 local M = {}
 
 local function get_all_spec_items()
@@ -16,40 +24,35 @@ local function get_all_spec_items()
   return all_items
 end
 
-M.source = {
-  name = "spec",
-  filetype = { enable = { 'c', 'cpp' } }, -- Enable for C and C++ files
-  get_trigger_characters = function()
-    return { '-' }
-  end,
+-- Auto-trigger completion when the current word begins with "Req-"
+vim.api.nvim_create_autocmd("TextChangedI", {
+  group = vim.api.nvim_create_augroup("SpecCompletion", { clear = true }),
+  pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
+  callback = function()
+    local line = vim.api.nvim_get_current_line()
+    local col  = vim.api.nvim_win_get_cursor(0)[2]  -- 0-based
+    local before = line:sub(1, col)
+    local word = before:match("([%w%-]+)$")
 
-  complete = function(_, params, callback)
-    local line_to_cursor = params.context.cursor_line:sub(1, params.context.cursor.col)
-    local current_word = line_to_cursor:match("([%w-]+)$")
-
-    if not current_word or not (current_word:sub(1, 4) == 'Req-') then
-      callback({})
-      return
-    end
+    if not word or word:sub(1, 4) ~= "Req-" then return end
 
     local spec_items = get_all_spec_items()
-    local completions = {}
+    if #spec_items == 0 then return end
+
+    local items = {}
     for _, item in ipairs(spec_items) do
-      table.insert(completions, {
-        label = item.id,
-        kind = vim.lsp.protocol.CompletionItemKind.Reference,
-        documentation = {
-          kind = "markdown",
-          value = "#### " .. item.number .. "\n\n" .. item.text,
-        },
+      table.insert(items, {
+        word  = item.id,
+        menu  = "[spec]",
+        info  = "#### " .. item.number .. "\n\n" .. item.text,
+        kind  = "r",  -- reference
       })
     end
 
-    callback(completions)
+    -- col is 0-based; complete() wants a 1-based column of where the word starts
+    local start_col = col - #word + 1
+    vim.fn.complete(start_col, items)
   end,
-}
-
-
-require("cmp").register_source(M.source.name, M.source)
+})
 
 return M

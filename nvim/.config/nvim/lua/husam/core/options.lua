@@ -1,4 +1,5 @@
 vim.opt.smartindent = true
+vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect', 'popup' }
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.opt.tabstop = 2
