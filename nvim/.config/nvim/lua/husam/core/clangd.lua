@@ -45,7 +45,7 @@ local function configure_clangd()
   end
 end
 
-vim.api.nvim_create_autocmd("VimEnter", {
+vim.api.nvim_create_autocmd("UIEnter", {
   callback = configure_clangd,
 })
 
