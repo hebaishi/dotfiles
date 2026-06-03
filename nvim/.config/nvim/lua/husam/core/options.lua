@@ -52,6 +52,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function(event)
+    -- Skip virtual/scheme-based buffers (e.g. oil://, fugitive://, etc.)
+    if event.match:match("^%a+://") then return end
     vim.fn.mkdir(vim.fn.fnamemodify(event.match, ":p:h"), "p")
   end,
 })
