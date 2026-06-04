@@ -1,6 +1,14 @@
 local job = nil
 local run_id = 0
 
+local function split_lines(data)
+  local lines = vim.split(data, "\n", { plain = true })
+  while #lines > 0 and lines[#lines] == "" do
+    table.remove(lines)
+  end
+  return lines
+end
+
 local function async_run(cmd)
   if job then
     job:kill(9)
@@ -15,7 +23,7 @@ local function async_run(cmd)
       if data and run_id == current_id then
         vim.schedule(function()
           if run_id == current_id then
-            vim.fn.setqflist({}, "a", { lines = vim.split(data, "\n", { plain = true }) })
+            vim.fn.setqflist({}, "a", { lines = split_lines(data) })
           end
         end)
       end
@@ -24,7 +32,7 @@ local function async_run(cmd)
       if data and run_id == current_id then
         vim.schedule(function()
           if run_id == current_id then
-            vim.fn.setqflist({}, "a", { lines = vim.split(data, "\n", { plain = true }) })
+            vim.fn.setqflist({}, "a", { lines = split_lines(data) })
           end
         end)
       end
