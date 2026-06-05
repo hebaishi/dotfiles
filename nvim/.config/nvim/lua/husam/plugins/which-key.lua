@@ -42,8 +42,6 @@ return {
     wk.add({
       { "<leader>d",   group = "debug" },
       { "<leader>s",   group = "search" },
-      { '<leader>p',   'o<ESC>p',                                                       desc = 'Paste on new line below' },
-      { '<leader>P',   'O<ESC>p',                                                       desc = 'Paste on new line above' },
       { '<leader>T',   '<cmd>tabnew<CR>',                                               desc = 'New Tab' },
       { '<leader>tc',  '<cmd>tabclose<CR>',                                             desc = 'Close Tab' },
       { '<leader>tn',  '<cmd>tabnext<CR>',                                              desc = 'Next Tab' },
