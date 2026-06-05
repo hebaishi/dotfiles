@@ -70,6 +70,12 @@ _G._lsp_snippet_omnifunc = function(findstart, base)
   local word_boundary = vim.fn.match(line_to_cursor, '\\k*$')  -- 0-based byte col
 
   if findstart == 1 then
+    -- If the isfname-bounded token under the cursor contains '/', treat it
+    -- as a path and return the path start — the same boundary <C-x><C-f> uses.
+    local path_col = vim.fn.match(line_to_cursor, [=[\f*$]=])
+    if line_to_cursor:sub(path_col + 1):find('/') then
+      return path_col
+    end
     return word_boundary
   end
 
@@ -117,6 +123,42 @@ _G._lsp_snippet_omnifunc = function(findstart, base)
           kind        = 'S',
           user_data   = { snippet_body = body },
           _is_snippet = true,
+        })
+      end
+    end
+  end
+
+  -- ── Path / file completions ───────────────────────────────────────────────
+  -- Active when the base contains a '/' or starts with a recognised path prefix
+  -- (~, ., ..). Uses the same getcompletion('file') engine as <C-x><C-f>.
+  if base:find('/') or base:match('^[~/.]') then
+    local dir_part  = base:match('^(.*/)') or ''
+    local name_part = base:match('[^/]*$') or ''
+
+    local paths = vim.fn.getcompletion(base, 'file')
+
+    -- getcompletion() follows the same glob rules as the shell and skips
+    -- dotfiles unless the name-part of `base` already starts with '.'.
+    -- Probe again with '.' appended to the directory so hidden entries
+    -- are always included, then filter to those matching `name_part`.
+    if not name_part:match('^%.') then
+      for _, h in ipairs(vim.fn.getcompletion(dir_part .. '.', 'file')) do
+        local tail = h:match('[^/]*/?$') or h
+        if name_part == '' or vim.startswith(tail, name_part) then
+          table.insert(paths, h)
+        end
+      end
+    end
+
+    local seen = {}
+    for _, path in ipairs(paths) do
+      if not seen[path] then
+        seen[path] = true
+        local is_dir = vim.fn.isdirectory(vim.fn.expand(path)) == 1
+        table.insert(items, {
+          word = path,
+          menu = is_dir and '[dir]' or '[file]',
+          kind = 'F',
         })
       end
     end
@@ -188,6 +230,22 @@ vim.api.nvim_create_autocmd('CompleteDone', {
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { '()' })
     vim.api.nvim_win_set_cursor(0, { row, col + 1 })
+  end,
+})
+
+-- Auto-trigger path completion (<C-x><C-f>) whenever '/' is typed in insert
+-- mode and no popup is already visible.  Works in every filetype.
+vim.api.nvim_create_autocmd('InsertCharPre', {
+  group = vim.api.nvim_create_augroup('PathAutoComplete', { clear = true }),
+  callback = function()
+    if vim.v.char ~= '/' then return end
+    vim.schedule(function()
+      if vim.fn.pumvisible() == 1 then return end
+      vim.api.nvim_feedkeys(
+        vim.api.nvim_replace_termcodes('<C-x><C-f>', true, true, true),
+        'n', false
+      )
+    end)
   end,
 })
 
