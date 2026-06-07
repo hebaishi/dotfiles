@@ -14,6 +14,7 @@ end
 
 -- For example, changing the color scheme:
 config.font_size = 12.0
+config.hide_tab_bar_if_only_one_tab = true
 
 -- For streaming
 -- config.font = wezterm.font('SauceCodePro NF Medium')
