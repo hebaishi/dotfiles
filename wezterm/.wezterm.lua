@@ -20,7 +20,9 @@ config.hide_tab_bar_if_only_one_tab = true
 -- config.font = wezterm.font('SauceCodePro NF Medium')
 -- For day-to-day
 config.font = wezterm.font('Input Nerd Font')
-config.default_prog = { 'powershell.exe' }
+if wezterm.target_triple:find('windows') then
+  config.default_prog = { 'powershell.exe' }
+end
 -- and finally, return the configuration to wezterm
 config.ssh_domains = {
   {
