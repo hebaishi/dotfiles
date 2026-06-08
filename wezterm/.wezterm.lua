@@ -19,7 +19,7 @@ config.hide_tab_bar_if_only_one_tab = true
 -- For streaming
 -- config.font = wezterm.font('SauceCodePro NF Medium')
 -- For day-to-day
-config.font = wezterm.font('Input Nerd Font')
+config.font = wezterm.font('JetBrainsMono NF')
 if wezterm.target_triple:find('windows') then
   config.default_prog = { 'powershell.exe' }
 end
