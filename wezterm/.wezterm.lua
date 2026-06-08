@@ -23,14 +23,32 @@ config.font = wezterm.font('Input Nerd Font')
 if wezterm.target_triple:find('windows') then
   config.default_prog = { 'powershell.exe' }
 end
+
+-- Load SSH domains dynamically from ~/.ssh/config
+local function load_ssh_domains()
+  local domains = {}
+  local ssh_config_path = wezterm.home_dir .. '/.ssh/config'
+  local f = io.open(ssh_config_path, 'r')
+  if not f then
+    return domains
+  end
+  for line in f:lines() do
+    local host = line:match('^%s*Host%s+(%S+)%s*$')
+    if host and not host:find('[*?]') then
+      table.insert(domains, {
+        name = host,
+        remote_address = host,
+        multiplexing = 'None',
+      })
+    end
+  end
+  f:close()
+  return domains
+end
+
+config.ssh_domains = load_ssh_domains()
+config.default_domain = 'local'
+
 -- and finally, return the configuration to wezterm
-config.ssh_domains = {
-  {
-    name = "linux",
-    remote_address = "linux",
-    multiplexing = "None",
-  },
-}
-config.default_domain = "linux"
 return config
 
