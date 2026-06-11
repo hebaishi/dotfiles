@@ -83,7 +83,7 @@ return {
     dap.adapters.lldb = {
       id = 'codelldb',
       type = 'executable',
-      command = '/home/vcacore/inbox/lldb-dap/LLVM-22.1.6-Linux-X64/bin/lldb-dap',
+      command = 'lldb-dap',
     }
     vim.keymap.set('n', '<F5>', function()
       local auto_detect_executable = {
