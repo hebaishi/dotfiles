@@ -17,6 +17,7 @@ local function async_run(cmd)
   run_id = run_id + 1
   local current_id = run_id
   vim.fn.setqflist({}, "r", { title = cmd, items = {} })
+  vim.cmd("cbottom")
   local start = vim.uv.hrtime()
   job = vim.system({ "sh", "-c", cmd }, {
     stdout = function(_, data)
@@ -24,6 +25,7 @@ local function async_run(cmd)
         vim.schedule(function()
           if run_id == current_id then
             vim.fn.setqflist({}, "a", { lines = split_lines(data) })
+            vim.cmd("cbottom")
           end
         end)
       end
@@ -33,6 +35,7 @@ local function async_run(cmd)
         vim.schedule(function()
           if run_id == current_id then
             vim.fn.setqflist({}, "a", { lines = split_lines(data) })
+            vim.cmd("cbottom")
           end
         end)
       end
@@ -45,6 +48,7 @@ local function async_run(cmd)
           vim.fn.setqflist({}, "a", {
             lines = { string.format("[exit %d | %.2fs]", result.code, elapsed) },
           })
+          vim.cmd("cbottom")
         end
       end)
     end
