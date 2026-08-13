@@ -49,7 +49,7 @@ function prettifyJson(minified)
   return result
 end
 vim.keymap.set('n', '<leader>dc', function()
-  local path = vim.fn.expand('%:p')
+  local path = vim.fn.expand('%:.')
   local line = vim.fn.line('.')
   local ref = string.format('%s:%d', path, line)
   vim.fn.setreg('+', ref)
