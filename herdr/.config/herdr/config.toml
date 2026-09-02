@@ -1,0 +1,19 @@
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[keys]
+focus_pane_left = "ctrl+h"
+focus_pane_down = "ctrl+j"
+focus_pane_up = "ctrl+k"
+focus_pane_right = "ctrl+l"
+
+# Navigate-mode movement (e.g. the workspace picker opened with prefix+w).
+# navigate_pane_left/right default to h/l already; add vim-style up/down
+# so h/j/k/l all work for moving through the workspace list.
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_left = "h"
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"
