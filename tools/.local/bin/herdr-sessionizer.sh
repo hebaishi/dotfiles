@@ -2,10 +2,11 @@
 # herder-sessionizer.sh
 # tmux-sessionizer, but for herdr (https://herdr.dev).
 #
-# When run from inside a herdr pane, it creates/focuses a herdr *workspace*
-# for the selected project (like a tmux window per project in a shared
-# session). When run outside herdr, it creates/attaches a named herdr
-# *session* for the selected project (like a tmux session per project).
+# Always operates against a single persistent herdr session named
+# 'default' (starting it headlessly if needed) and creates/focuses a
+# per-project herdr *workspace* inside it (like a tmux window per
+# project in a shared session). This works the same whether it's run
+# from inside a herdr pane or from a plain shell outside herdr.
 function find_wrapper() {
   name=$1
   location=$2
@@ -54,33 +55,63 @@ selected=$(echo $selected | cut -f2 -d:)
 
 selected_name=$(echo "$selected" | tr -c 'A-Za-z0-9._-' '_')
 
-if [[ -n $HERDR_ENV ]]; then
-  # Already inside a herdr session: manage workspaces (herdr's equivalent
-  # of tmux windows) instead of nesting another session.
-  existing_id=$(herdr workspace list \
-    | jq -r --arg lbl "$selected_name" \
-      '.result.workspaces[] | select(.label == $lbl) | .workspace_id' \
-    | head -n1)
+# Always operate against a single persistent session named 'default', with
+# one workspace per project (herdr's equivalent of a tmux window). This is
+# true whether we're already inside herdr or launching from the outside.
+herdr_session="default"
 
-  if [[ -z $existing_id ]]; then
-    existing_id=$(herdr workspace create --cwd "$selected_path" --label "$selected_name" --no-focus \
-      | jq -r '.result.workspace.workspace_id')
+session_running=$(herdr session list --json \
+  | jq -r --arg name "$herdr_session" \
+    '.sessions[] | select(.name == $name and .running == true) | .name' \
+  | head -n1)
+
+if [[ -z $session_running ]]; then
+  herdr server --session "$herdr_session" \
+    </dev/null >/dev/null 2>&1 &
+  disown
+
+  for _ in $(seq 1 50); do
+    session_running=$(herdr session list --json \
+      | jq -r --arg name "$herdr_session" \
+        '.sessions[] | select(.name == $name and .running == true) | .name' \
+      | head -n1)
+    [[ -n $session_running ]] && break
+    sleep 0.1
+  done
+
+  if [[ -z $session_running ]]; then
+    echo "Timed out waiting for herdr session '$herdr_session' to start" >&2
+    exit 1
   fi
+fi
 
-  herdr workspace focus "$existing_id"
+existing_id=$(herdr --session "$herdr_session" workspace list \
+  | jq -r --arg lbl "$selected_name" \
+    '.result.workspaces[] | select(.label == $lbl) | .workspace_id' \
+  | head -n1)
+
+if [[ -z $existing_id ]]; then
+  existing_id=$(herdr --session "$herdr_session" workspace create \
+    --cwd "$selected_path" --label "$selected_name" --no-focus \
+    | jq -r '.result.workspace.workspace_id')
+fi
+
+herdr --session "$herdr_session" workspace focus "$existing_id" > /dev/null
+
+if [[ -n $HERDR_ENV ]]; then
+  # Already inside a herdr pane. herdr disallows nested/recursive attach
+  # (attaching to another session from within one errors out), so the
+  # best we can do from here is focus the workspace via the socket API
+  # above. If we're inside the 'default' session itself that's enough to
+  # bring it on screen; if we're inside a different session, the focus
+  # takes effect in 'default' and will be visible next time it's attached.
+  if [[ $HERDR_SESSION == "$herdr_session" ]]; then
+    exit 0
+  fi
+  echo "Workspace '$selected_name' is ready in the '$herdr_session' herdr session." >&2
+  echo "(Currently inside session '$HERDR_SESSION'; nested attach is disabled, so switch sessions manually to view it.)" >&2
   exit 0
 fi
 
-# Outside herdr: manage named persistent sessions (herdr's equivalent of
-# tmux sessions).
-session_exists=$(herdr session list --json \
-  | jq -r --arg name "$selected_name" \
-    '.sessions[] | select(.name == $name) | .name' \
-  | head -n1)
-
-if [[ -n $session_exists ]]; then
-  exec herdr session attach "$selected_name"
-else
-  cd "$selected_path" || exit 1
-  exec herdr --session "$selected_name"
-fi
+# Outside herdr entirely: attach to the 'default' session.
+exec herdr session attach "$herdr_session"
