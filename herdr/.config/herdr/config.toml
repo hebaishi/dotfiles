@@ -22,3 +22,6 @@ navigate_pane_right = "l"
 # Cycle through agents in the agent panel (sorted by priority, see [ui]).
 next_agent = "ctrl+n"
 previous_agent = "ctrl+p"
+
+# Toggle (hide/show) the sidebar/side panel.
+toggle_sidebar = "ctrl+t"
