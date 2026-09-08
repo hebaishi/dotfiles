@@ -349,3 +349,17 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+source -- ~/.local/share/blesh/ble.sh
+
+# Fake a tmux session inside Herdr panes so vim-tmux-navigator's boundary
+# crossing (its hardcoded shell-out to `tmux select-pane`) bounces back into
+# Herdr instead of silently doing nothing. Skipped when already inside a real
+# tmux (nested tmux keeps working normally). See herdr/shim/tmux and the
+# husam.vim-navigator plugin, which forwards ctrl+h/j/k/l into vim/nvim panes
+# instead of letting Herdr steal them directly.
+if [[ "${HERDR_ENV:-}" == "1" && -z "${TMUX:-}" ]]; then
+    export HERDR_TMUX_SHIM_SOCKET="herdr-navigator-shim"
+    export TMUX="${HERDR_TMUX_SHIM_SOCKET},0,0"
+    export TMUX_PANE="${HERDR_PANE_ID:-herdr}"
+    export PATH="$HOME/dotfiles/herdr/shim:$PATH"
+fi

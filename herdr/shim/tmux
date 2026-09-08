@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Fake `tmux` binary used only inside Herdr panes so that vim-tmux-navigator
+# (which is hardwired to shell out to a real `tmux`) can bounce pane
+# navigation back out to Herdr when a vim split hits its edge.
+#
+# This script is only put on PATH ahead of the real tmux when running inside
+# a Herdr pane that is *not* also inside a real tmux session (see bashrc).
+# It only intercepts calls that target our sentinel socket
+# ($HERDR_TMUX_SHIM_SOCKET, passed via `-S`); every other invocation (e.g.
+# actually running `tmux` by hand, or nested real tmux) is handed off to the
+# real tmux binary.
+
+real_tmux() {
+  local self dir p
+  self="$(readlink -f "$0" 2>/dev/null || echo "$0")"
+  IFS=':' read -ra parts <<<"$PATH"
+  for p in "${parts[@]}"; do
+    [[ -z "$p" ]] && continue
+    if [[ -x "$p/tmux" ]]; then
+      local candidate
+      candidate="$(readlink -f "$p/tmux" 2>/dev/null || echo "$p/tmux")"
+      if [[ "$candidate" != "$self" ]]; then
+        exec "$p/tmux" "$@"
+      fi
+    fi
+  done
+  echo "tmux: no real tmux binary found on PATH" >&2
+  exit 127
+}
+
+if [[ "${1:-}" == "-S" && -n "${HERDR_TMUX_SHIM_SOCKET:-}" && "${2:-}" == "$HERDR_TMUX_SHIM_SOCKET" ]]; then
+  shift 2
+  cmd="${1:-}"
+  shift || true
+  herdr="${HERDR_BIN_PATH:-herdr}"
+  case "$cmd" in
+    select-pane)
+      dir=""
+      while [[ $# -gt 0 ]]; do
+        case "$1" in
+          -L) dir=left ;;
+          -R) dir=right ;;
+          -U) dir=up ;;
+          -D) dir=down ;;
+        esac
+        shift
+      done
+      if [[ -n "$dir" ]]; then
+        "$herdr" pane focus --direction "$dir" --current >/dev/null 2>&1 || true
+      fi
+      ;;
+    display-message)
+      # Only ever asked for window_zoomed_flag; report "not zoomed".
+      echo 0
+      ;;
+    if | run-shell)
+      : # not needed for our navigator subset; no-op.
+      ;;
+  esac
+  exit 0
+fi
+
+real_tmux "$@"

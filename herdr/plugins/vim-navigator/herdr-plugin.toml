@@ -1,0 +1,26 @@
+id = "husam.vim-navigator"
+name = "Vim Navigator"
+version = "0.1.0"
+min_herdr_version = "0.8.0"
+description = "vim-tmux-navigator style smart pane navigation for Herdr"
+platforms = ["linux", "macos"]
+
+[[actions]]
+id = "left"
+title = "Smart focus left"
+command = ["bash", "nav.sh", "left"]
+
+[[actions]]
+id = "down"
+title = "Smart focus down"
+command = ["bash", "nav.sh", "down"]
+
+[[actions]]
+id = "up"
+title = "Smart focus up"
+command = ["bash", "nav.sh", "up"]
+
+[[actions]]
+id = "right"
+title = "Smart focus right"
+command = ["bash", "nav.sh", "right"]

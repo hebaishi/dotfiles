@@ -4,10 +4,10 @@ name = "catppuccin"
 auto_switch = false
 
 [keys]
-focus_pane_left = "ctrl+h"
-focus_pane_down = "ctrl+j"
-focus_pane_up = "ctrl+k"
-focus_pane_right = "ctrl+l"
+# Direct ctrl+h/j/k/l are handled by the husam.vim-navigator plugin below
+# instead of focus_pane_*, so they can pass through into vim/nvim (and let
+# vim-tmux-navigator bounce back out at split edges) instead of Herdr always
+# stealing them. prefix+h/j/k/l keeps working via the built-in default.
 
 # Navigate-mode movement (e.g. the workspace picker opened with prefix+w).
 # navigate_pane_left/right default to h/l already; add vim-style up/down
@@ -25,6 +25,30 @@ previous_agent = "ctrl+alt+p"
 
 # Toggle (hide/show) the sidebar/side panel.
 toggle_sidebar = "ctrl+t"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "husam.vim-navigator.left"
+description = "smart focus left (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "husam.vim-navigator.down"
+description = "smart focus down (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "husam.vim-navigator.up"
+description = "smart focus up (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "husam.vim-navigator.right"
+description = "smart focus right (vim-aware)"
 
 [ui]
 agent_panel_sort = "priority"
