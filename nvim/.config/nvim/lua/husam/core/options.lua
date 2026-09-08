@@ -19,8 +19,8 @@ vim.keymap.set('v', 'kj', '<Esc>', { noremap = true, silent = true })
 
 vim.g.markdown_fenced_languages = { 'html', 'python', 'lua', 'vim', 'typescript', 'javascript', 'json', 'cpp', 'toml' }
 
--- Configure clipboard to use OSC 52 for zellij (copy only)
-if os.getenv("ZELLIJ") then
+-- Configure clipboard to use OSC 52 for zellij/herdr (copy only)
+if os.getenv("ZELLIJ") or os.getenv("HERDR_ENV") then
   local function paste()
     return {
       vim.fn.split(vim.fn.getreg(''), '\n'),
