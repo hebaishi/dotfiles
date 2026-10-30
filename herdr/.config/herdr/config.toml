@@ -51,6 +51,9 @@ command = "husam.vim-navigator.right"
 description = "smart focus right (vim-aware)"
 
 [ui]
+# Let the terminal (nvim, tmux, etc.) handle normal/Cmd-clicks on URLs
+# instead of Herdr's mouse UI capturing them.
+mouse_capture = false
 agent_panel_sort = "priority"
 # Create new tabs immediately without prompting for a name.
 prompt_new_tab_name = false
