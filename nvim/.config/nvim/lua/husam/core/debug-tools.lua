@@ -48,14 +48,29 @@ function prettifyJson(minified)
 
   return result
 end
+local function get_cursor_location()
+  return {
+    path = vim.fn.expand('%:.'),
+    line = vim.fn.line('.'),
+    col = vim.fn.col('.'),
+  }
+end
+
+local function copy_to_clipboard(text)
+  vim.fn.setreg('+', text)
+  vim.fn.setreg('"', text)
+  vim.notify('Copied: ' .. text)
+end
+
 vim.keymap.set('n', '<leader>dc', function()
-  local path = vim.fn.expand('%:.')
-  local line = vim.fn.line('.')
-  local ref = string.format('%s:%d', path, line)
-  vim.fn.setreg('+', ref)
-  vim.fn.setreg('"', ref)
-  vim.notify('Copied: ' .. ref)
+  local loc = get_cursor_location()
+  copy_to_clipboard(string.format('%s:%d', loc.path, loc.line))
 end, { desc = "Copy file:line for GDB" })
+
+vim.keymap.set('n', '<leader>dC', function()
+  local loc = get_cursor_location()
+  copy_to_clipboard(string.format('%s:%d:%d: note:', loc.path, loc.line, loc.col))
+end, { desc = "Copy file:line:col: note: (quickfix-friendly)" })
 
 vim.keymap.set('n', '<leader>dt', function()
   require('dapui').toggle()
