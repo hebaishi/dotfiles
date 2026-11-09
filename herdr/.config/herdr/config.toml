@@ -59,3 +59,5 @@ agent_panel_sort = "priority"
 prompt_new_tab_name = false
 status_indicators = "dots"
 show_agent_labels_on_pane_borders = true
+pane_gaps = false
+pane_outer_borders = false
