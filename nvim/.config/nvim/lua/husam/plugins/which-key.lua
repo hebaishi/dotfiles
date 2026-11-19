@@ -46,7 +46,7 @@ return {
       { '<leader>tc',  '<cmd>tabclose<CR>',                                             desc = 'Close Tab' },
       { '<leader>tn',  '<cmd>tabnext<CR>',                                              desc = 'Next Tab' },
       { '<leader>tp',  '<cmd>tabprev<CR>',                                              desc = 'Previous Tab' },
-      { '<leader>ta',  function() require("taskwarrior_nvim").browser({ "ready" }) end, desc = 'Close Tab' },
+      { '<leader>ta',  '<cmd>edit ~/todo.md<cr>', desc = 'Edit todo.md' },
       { "<leader>sh",  builtin.help_tags,                                               desc = 'Search Help' },
       { "<leader>sk",  builtin.keymaps,                                                 desc = 'Search Keymaps' },
       { "<leader>sf",  builtin.git_files,                                               desc = 'Search Git Files' },
